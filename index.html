@@ -3,104 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zlpha Connect - Smart Data Sharing</title>
+    <title>Slideshow Viewer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #555;
-            font-size: 18px;
-        }
-        .image-container {
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .slider-container {
             position: relative;
-            margin-top: 20px;
-        }
-        .image-container img {
-            width: 300px;
-            height: auto;
+            width: 600px;
+            height: 400px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
         }
-        .arrow {
-            font-size: 30px;
-            font-weight: bold;
-            color: #007BFF;
-            cursor: pointer;
-            user-select: none;
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .active {
+            display: block;
+        }
+        .nav-button {
             position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 50%;
         }
-        .left-arrow {
-            left: 10px;
-        }
-        .right-arrow {
-            right: 10px;
-        }
-        .slide-counter {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #333;
+        .prev { left: 10px; }
+        .next { right: 10px; }
+        .counter {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Zlpha Connect</h1>
-        <h2>Revolutionizing Mobile Data Sharing</h2>
-        <p><strong>Problem:</strong> Billions of GBs of mobile data go unused daily, leading to unnecessary recharges and poor connectivity due to single-network dependency.</p>
-        <p><strong>Solution:</strong> A cross-network platform allowing users to share, trade, and monetize unused mobile data, ensuring uninterrupted connectivity.</p>
-        <p><strong>Vision:</strong> Empower users with control over their data, reduce waste, and build a seamless digital ecosystem.</p>
-        <p>Stay tuned for updates! Contact us for partnerships and collaborations.</p>
-
-        <div class="image-container">
-            <span class="arrow left-arrow" onclick="prevSlide()">&#8592;</span>
-            <img id="slide-image" src="ss2.png" alt="Slide">
- 
-            <span class="arrow right-arrow" onclick="nextSlide()">&#8594;</span>
-        </div>
-        <div class="slide-counter" id="slide-counter">1/3</div>
+    <div class="slider-container">
+        <img class="slide active" src="ss2.png" alt="Slide 1">
+        <img class="slide" src="ss7.png" alt="Slide 2">
+        <img class="slide" src="ss19.png" alt="Slide 3">
+        
+        <button class="nav-button prev" onclick="prevSlide()">&#10094;</button>
+        <button class="nav-button next" onclick="nextSlide()">&#10095;</button>
+        
+        <div class="counter" id="slide-counter">1 / 3</div>
     </div>
 
     <script>
-        const images = ["ss2.png", "ss7.png", "ss19.png"];
+        const slides = document.querySelectorAll(".slide");
         let currentIndex = 0;
 
         function updateSlide() {
-            document.getElementById("slide-image").src = images[currentIndex];
-            document.getElementById("slide-counter").textContent = ${currentIndex + 1}/${images.length};
+            slides.forEach((slide, index) => {
+                slide.classList.toggle("active", index === currentIndex);
+            });
+            document.getElementById("slide-counter").textContent = ${currentIndex + 1} / ${slides.length};
         }
 
         function prevSlide() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateSlide();
-            }
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateSlide();
         }
 
         function nextSlide() {
-            if (currentIndex < images.length - 1) {
-                currentIndex++;
-                updateSlide();
-            }
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlide();
         }
+
+        // Auto-slide every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Keyboard arrow key navigation
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "ArrowLeft") prevSlide();
+            if (event.key === "ArrowRight") nextSlide();
+        });
     </script>
 </body>
 </html>
