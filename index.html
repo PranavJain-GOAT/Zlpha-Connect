@@ -100,9 +100,8 @@
             const nextButton = document.querySelector('.next');
 
             function showSlide(index) {
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('active', i === index);
-                });
+                slides.forEach(slide => slide.classList.remove('active')); // Remove active from all
+                slides[index].classList.add('active'); // Add active to current slide
                 slideIndicator.textContent = Slide ${index + 1}/${slides.length};
             }
 
