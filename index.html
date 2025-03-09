@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +29,8 @@
         .image-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            align-items: center;
+            flex-direction: column;
             margin-top: 20px;
         }
         .image-container img {
@@ -38,6 +38,22 @@
             height: auto;
             border-radius: 10px;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        .buttons button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -48,13 +64,33 @@
         <p><strong>Problem:</strong> Billions of GBs of mobile data go unused daily, leading to unnecessary recharges and poor connectivity due to single-network dependency.</p>
         <p><strong>Solution:</strong> A cross-network platform allowing users to share, trade, and monetize unused mobile data, ensuring uninterrupted connectivity.</p>
         <p><strong>Vision:</strong> Empower users with control over their data, reduce waste, and build a seamless digital ecosystem.</p>
-        <p>Stay tuned for updates! Contact us for partnerships and collaborations.</p>
-
-        <div class="image-container">
-            <img src="ss2.png" alt="People sharing data">
-            <img src="ss7.png" alt="Global connectivity">
-            <img src="ss19.png" alt="Mobile data sharing">
-        </div>
+        <p>Stay tuned for updates! Contact us for partnerships and collaborations.</p><div class="image-container">
+        <img id="slideshow" src="ss2.png" alt="People sharing data">
     </div>
+    <div class="buttons">
+        <button onclick="prevSlide()">Back</button>
+        <button onclick="nextSlide()">Next</button>
+    </div>
+</div>
+
+<script>
+    const images = ["ss2.png", "ss7.png", "ss19.png"];
+    let index = 0;
+    
+    function showImage() {
+        document.getElementById("slideshow").src = images[index];
+    }
+    
+    function nextSlide() {
+        index = (index + 1) % images.length;
+        showImage();
+    }
+    
+    function prevSlide() {
+        index = (index - 1 + images.length) % images.length;
+        showImage();
+    }
+</script>
+
 </body>
 </html>
