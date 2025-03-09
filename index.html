@@ -86,32 +86,38 @@
         <div class="slide-indicator">Slide 1/3</div>
 
         <div class="controls">
-            <button class="prev" onclick="prevSlide()">Previous</button>
-            <button class="next" onclick="nextSlide()">Next</button>
+            <button class="prev">Previous</button>
+            <button class="next">Next</button>
         </div>
     </div>
 
     <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.image-container img');
-        const slideIndicator = document.querySelector('.slide-indicator');
+        document.addEventListener("DOMContentLoaded", function () {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.image-container img');
+            const slideIndicator = document.querySelector('.slide-indicator');
+            const prevButton = document.querySelector('.prev');
+            const nextButton = document.querySelector('.next');
 
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                slideIndicator.textContent = Slide ${index + 1}/${slides.length};
+            }
+
+            nextButton.addEventListener("click", function () {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
             });
-            slideIndicator.textContent = Slide ${index + 1}/${slides.length};
-        }
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }
+            prevButton.addEventListener("click", function () {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            });
 
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
             showSlide(currentSlide);
-        }
+        });
     </script>
 </body>
 </html>
