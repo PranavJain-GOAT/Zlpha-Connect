@@ -27,23 +27,23 @@
             color: #555;
             font-size: 18px;
         }
-        .image-container {
+        .slider-container {
             position: relative;
             width: 300px;
             margin: 20px auto;
         }
-        .image-container img {
+        .slider-container img {
             width: 100%;
             height: auto;
             border-radius: 10px;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
             display: none;
         }
-        .image-container img.active {
+        .slider-container img.active {
             display: block;
         }
         .controls {
-            margin-top: 20px;
+            margin-top: 10px;
         }
         button {
             padding: 10px 20px;
@@ -77,7 +77,7 @@
         <p><strong>Vision:</strong> Empower users with control over their data, reduce waste, and build a seamless digital ecosystem.</p>
         <p>Stay tuned for updates! Contact us for partnerships and collaborations.</p>
 
-        <div class="image-container">
+        <div class="slider-container">
             <img src="ss2.png" alt="People sharing data" class="active">
             <img src="ss7.png" alt="Global connectivity">
             <img src="ss19.png" alt="Mobile data sharing">
@@ -94,23 +94,25 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let currentSlide = 0;
-            const slides = document.querySelectorAll('.image-container img');
+            const slides = document.querySelectorAll('.slider-container img');
             const slideIndicator = document.querySelector('.slide-indicator');
             const prevButton = document.querySelector('.prev');
             const nextButton = document.querySelector('.next');
 
             function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove('active')); // Remove active from all
-                slides[index].classList.add('active'); // Add active to current slide
+                slides.forEach(slide => slide.classList.remove('active')); // Hide all images
+                slides[index].classList.add('active'); // Show only current slide
                 slideIndicator.textContent = Slide ${index + 1}/${slides.length};
             }
 
-            nextButton.addEventListener("click", function () {
+            nextButton.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevent triggering outside elements
                 currentSlide = (currentSlide + 1) % slides.length;
                 showSlide(currentSlide);
             });
 
-            prevButton.addEventListener("click", function () {
+            prevButton.addEventListener("click", function (event) {
+                event.stopPropagation();
                 currentSlide = (currentSlide - 1 + slides.length) % slides.length;
                 showSlide(currentSlide);
             });
