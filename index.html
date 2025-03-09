@@ -20,51 +20,26 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #555;
-            font-size: 18px;
-        }
         .slider-container {
             position: relative;
-            width: 300px;
+            width: 100%;
+            max-width: 600px;
             margin: 20px auto;
         }
-        .slider-container img {
+        .slide {
+            display: none;
             width: 100%;
-            height: auto;
+        }
+        .slide img {
+            width: 100%;
             border-radius: 10px;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-            display: none;
-        }
-        .slider-container img.active {
-            display: block;
-        }
-        .controls {
-            margin-top: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            margin: 5px;
-            border-radius: 5px;
-        }
-        .prev {
-            background-color: #007bff;
-            color: white;
-        }
-        .next {
-            background-color: #28a745;
-            color: white;
         }
         .slide-indicator {
+            margin: 10px 0;
             font-size: 18px;
-            margin-top: 10px;
             font-weight: bold;
+            color: #333;
         }
     </style>
 </head>
@@ -72,52 +47,39 @@
     <div class="container">
         <h1>Zlpha Connect</h1>
         <h2>Revolutionizing Mobile Data Sharing</h2>
-        <p><strong>Problem:</strong> Billions of GBs of mobile data go unused daily, leading to unnecessary recharges and poor connectivity due to single-network dependency.</p>
-        <p><strong>Solution:</strong> A cross-network platform allowing users to share, trade, and monetize unused mobile data, ensuring uninterrupted connectivity.</p>
-        <p><strong>Vision:</strong> Empower users with control over their data, reduce waste, and build a seamless digital ecosystem.</p>
-        <p>Stay tuned for updates! Contact us for partnerships and collaborations.</p>
 
         <div class="slider-container">
-            <img src="ss2.png" alt="People sharing data" class="active">
-            <img src="ss7.png" alt="Global connectivity">
-            <img src="ss19.png" alt="Mobile data sharing">
+            <div class="slide"><img src="ss2.png" alt="Slide 1"></div>
+            <div class="slide"><img src="ss7.png" alt="Slide 2"></div>
+            <div class="slide"><img src="ss19.png" alt="Slide 3"></div>
         </div>
 
         <div class="slide-indicator">Slide 1/3</div>
-
-        <div class="controls">
-            <button class="prev">Previous</button>
-            <button class="next">Next</button>
-        </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let currentSlide = 0;
-            const slides = document.querySelectorAll('.slider-container img');
+            const slides = document.querySelectorAll('.slide');
             const slideIndicator = document.querySelector('.slide-indicator');
-            const prevButton = document.querySelector('.prev');
-            const nextButton = document.querySelector('.next');
 
             function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove('active')); // Hide all images
-                slides[index].classList.add('active'); // Show only current slide
+                slides.forEach((slide, i) => {
+                    slide.style.display = (i === index) ? "block" : "none";
+                });
                 slideIndicator.textContent = Slide ${index + 1}/${slides.length};
             }
 
-            nextButton.addEventListener("click", function (event) {
-                event.stopPropagation(); // Prevent triggering outside elements
+            function nextSlide() {
                 currentSlide = (currentSlide + 1) % slides.length;
                 showSlide(currentSlide);
-            });
+            }
 
-            prevButton.addEventListener("click", function (event) {
-                event.stopPropagation();
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                showSlide(currentSlide);
-            });
-
+            // Show the first slide initially
             showSlide(currentSlide);
+
+            // Automatically change slides every 10 seconds
+            setInterval(nextSlide, 10000);
         });
     </script>
 </body>
