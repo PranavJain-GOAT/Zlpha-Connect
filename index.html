@@ -46,7 +46,7 @@
             margin-top: 10px;
         }
         button {
-            padding: 10px 20px;
+            padding: 10px 15px;
             font-size: 16px;
             border: none;
             cursor: pointer;
@@ -100,19 +100,18 @@
             const nextButton = document.querySelector('.next');
 
             function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove('active')); // Hide all images
-                slides[index].classList.add('active'); // Show only current slide
+                slides.forEach((slide, i) => {
+                    slide.style.display = i === index ? "block" : "none";
+                });
                 slideIndicator.textContent = Slide ${index + 1}/${slides.length};
             }
 
-            nextButton.addEventListener("click", function (event) {
-                event.stopPropagation(); // Prevent triggering outside elements
+            nextButton.addEventListener("click", function () {
                 currentSlide = (currentSlide + 1) % slides.length;
                 showSlide(currentSlide);
             });
 
-            prevButton.addEventListener("click", function (event) {
-                event.stopPropagation();
+            prevButton.addEventListener("click", function () {
                 currentSlide = (currentSlide - 1 + slides.length) % slides.length;
                 showSlide(currentSlide);
             });
