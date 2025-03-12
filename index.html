@@ -2,96 +2,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zlpha Connect - Smart Data Sharing</title>
+    <title>Zlpha Connect - Revolutionizing Data Sharing</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             text-align: center;
-            background-color: black;
-            color: white;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
         }
-        .navbar {
+        .container {
+            padding: 50px;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #00ffcc;
+            animation: fadeIn 2s ease-in;
+        }
+        p {
+            font-size: 1.5rem;
+            color: #ddd;
+            animation: slideUp 2s ease-in;
+        }
+        .menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #111;
+            padding: 15px 0;
             display: flex;
             justify-content: center;
-            background-color: #333;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
+            gap: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
         }
-        .navbar a {
-            color: white;
-            padding: 10px 20px;
+        .menu a {
             text-decoration: none;
+            color: #00ffcc;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: color 0.3s;
         }
-        .navbar a:hover {
-            background-color: #575757;
+        .menu a:hover {
+            color: #ffcc00;
         }
         .section {
             display: none;
-            padding: 100px 20px;
+            padding: 50px;
+            animation: fadeIn 1.5s ease-in;
         }
-        .welcome {
+        #home {
             display: block;
-            padding-top: 80px;
         }
         .linkedin-button {
+            padding: 15px 25px;
+            font-size: 1.2rem;
             background-color: #0077b5;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
+            color: #fff;
+            border: none;
             border-radius: 5px;
-            display: inline-block;
-            margin-top: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .linkedin-button:hover {
+            background-color: #005582;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
-    <script>
-        function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.style.display = 'none';
-            });
-            document.getElementById(sectionId).style.display = 'block';
-        }
-    </script>
 </head>
 <body>
-    <div class="navbar">
-        <a href="#" onclick="showSection('welcome')">Home</a>
-        <a href="#" onclick="showSection('about-founder')">About the Founder</a>
-        <a href="#" onclick="showSection('about-app')">About the App</a>
+    <div class="menu">
+        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#" onclick="showSection('founder')">About the Founder</a>
+        <a href="#" onclick="showSection('app')">About the App</a>
         <a href="#" onclick="showSection('features')">Features</a>
-        <a href="#" onclick="showSection('contact')">Contact</a>
-    </div><div id="welcome" class="section welcome">
-    <h1>Welcome to Zlpha Connect</h1>
-    <p>Revolutionizing Mobile Data Sharing</p>
+        <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank" class="linkedin-button">Connect on LinkedIn</a>
+    </div><div class="container">
+    <div id="home" class="section">
+        <h1>Welcome to Zlpha Connect</h1>
+        <p>Revolutionizing mobile data sharing for a seamless digital experience.</p>
+    </div>
+
+    <div id="founder" class="section">
+        <h1>Meet the Founder</h1>
+        <p>Pranav Jain, an ambitious entrepreneur from NIT Trichy, is on a mission to transform mobile data sharing.</p>
+    </div>
+
+    <div id="app" class="section">
+        <h1>About the App</h1>
+        <p>Zlpha Connect enables users to share, trade, and monetize unused mobile data.</p>
+    </div>
+
+    <div id="features" class="section">
+        <h1>Key Features</h1>
+        <p>Cross-network sharing, seamless integration, and secure data transactions.</p>
+    </div>
 </div>
 
-<div id="about-founder" class="section">
-    <h1>About the Founder</h1>
-    <p>A revolutionary and ambitious entrepreneur, Pranav Jain from NIT Trichy, is on a mission to transform mobile data usage and sharing across the globe.</p>
-</div>
-
-<div id="about-app" class="section">
-    <h1>About the App</h1>
-    <p>Zlpha Connect is designed to enable seamless cross-network data sharing, reducing waste and ensuring uninterrupted connectivity.</p>
-</div>
-
-<div id="features" class="section">
-    <h1>Features</h1>
-    <ul>
-        <li>Cross-network data sharing</li>
-        <li>Monetization of unused mobile data</li>
-        <li>Seamless connectivity across providers</li>
-    </ul>
-</div>
-
-<div id="contact" class="section">
-    <h1>Contact</h1>
-    <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank" class="linkedin-button">Connect on LinkedIn</a>
-</div>
+<script>
+    function showSection(sectionId) {
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById(sectionId).style.display = 'block';
+    }
+</script>
 
 </body>
 </html>
