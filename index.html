@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,10 +20,12 @@
         h1 {
             font-size: 3rem;
             color: #00ffcc;
+            animation: fadeIn 2s ease-in;
         }
         p {
             font-size: 1.5rem;
             color: #ddd;
+            animation: slideUp 2s ease-in;
         }
         .menu {
             position: fixed;
@@ -33,6 +36,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
         .menu a {
@@ -40,6 +44,7 @@
             color: #00ffcc;
             font-size: 1.2rem;
             font-weight: bold;
+            transition: color 0.3s;
         }
         .menu a:hover {
             color: #ffcc00;
@@ -47,6 +52,7 @@
         .section {
             display: none;
             padding: 50px;
+            animation: fadeIn 1.5s ease-in;
         }
         #home {
             display: block;
@@ -58,6 +64,8 @@
             color: #fff;
             border: none;
             border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
         }
         .linkedin-button:hover {
             background-color: #005582;
@@ -67,6 +75,7 @@
             padding: 20px;
             margin: 20px;
             border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
         }
         .login-container {
             display: flex;
@@ -84,11 +93,13 @@
             background: #111;
             padding: 30px;
             border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
         }
         input {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
+            border: none;
             border-radius: 5px;
         }
         .login-button {
@@ -96,7 +107,11 @@
             color: #000;
             padding: 10px;
             border: none;
+            cursor: pointer;
             font-size: 1.2rem;
+        }
+        .login-button:hover {
+            background: #ffcc00;
         }
         .user-icon {
             position: fixed;
@@ -112,6 +127,7 @@
             justify-content: center;
             font-weight: bold;
             color: #000;
+            font-size: 1.2rem;
         }
         .user-details {
             position: fixed;
@@ -121,6 +137,21 @@
             padding: 15px;
             border-radius: 10px;
             display: none;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            text-align: left;
+        }
+        .user-details p {
+            margin: 5px 0;
+        }
+        .logout-button {
+            background: #ff4444;
+            color: #fff;
+            padding: 5px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -132,69 +163,71 @@
             <input type="email" id="email" placeholder="Email">
             <input type="password" id="password" placeholder="Password">
             <button class="login-button" onclick="login()">Login</button>
+            <p><a href="#" style="color:#00ffcc;">Forgot Password?</a></p>
         </div>
-    </div><div class="menu">
-    <a href="#" onclick="showSection('home')">Home</a>
-    <a href="#" onclick="showSection('founder')">About the Founder</a>
-    <a href="#" onclick="showSection('app')">About the App</a>
-    <a href="#" onclick="showSection('features')">Features</a>
-    <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank" class="linkedin-button">Connect on LinkedIn</a>
-</div>
-
-<div class="user-icon" id="userIcon" onclick="toggleUserDetails()">U</div>
-<div class="user-details" id="userDetails">
-    <p><strong>Username:</strong> <span id="userDisplay"></span></p>
-    <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
-    <button onclick="logout()">Logout</button>
-</div>
-
-<div class="container">
-    <div id="home" class="section">
-        <h1>Welcome to Zlpha Connect</h1>
-        <p>Revolutionizing mobile data sharing.</p>
     </div>
-    <div id="founder" class="section">
-        <h1>Meet the Founder</h1>
-        <p>Pranav Jain, an entrepreneur from NIT Trichy.</p>
+
+    <div class="menu">
+        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#" onclick="showSection('founder')">About the Founder</a>
+        <a href="#" onclick="showSection('app')">About the App</a>
+        <a href="#" onclick="showSection('features')">Features</a>
+        <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank" class="linkedin-button">Connect on LinkedIn</a>
     </div>
-    <div id="app" class="section">
-        <h1>About the App</h1>
-        <p>Zlpha Connect allows seamless data sharing.</p>
+
+    <div class="user-icon" id="userIcon" onclick="toggleUserDetails()">U</div>
+    <div class="user-details" id="userDetails">
+        <p><strong>Username:</strong> <span id="userDisplay"></span></p>
+        <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
+        <button class="logout-button" onclick="logout()">Logout</button>
     </div>
-    <div id="features" class="section">
-        <h1>Key Features</h1>
-        <div class="feature-box">Cross-Network Sharing</div>
-        <div class="feature-box">Secure Transactions</div>
-        <div class="feature-box">Smart AI Integration</div>
+
+    <div class="container">
+        <div id="home" class="section">
+            <h1>Welcome to Zlpha Connect</h1>
+            <p>Revolutionizing mobile data sharing for a seamless digital experience.</p>
+        </div>
+        <div id="founder" class="section">
+            <h1>Meet the Founder</h1>
+            <p>Pranav Jain, an ambitious entrepreneur from NIT Trichy, is on a mission to transform mobile data sharing.</p>
+        </div>
+        <div id="app" class="section">
+            <h1>About the App</h1>
+            <p>Zlpha Connect enables users to share, trade, and monetize unused mobile data.</p>
+        </div>
+        <div id="features" class="section">
+            <h1>Key Features</h1>
+            <div class="feature-box">Cross-Network Sharing - Users can share data seamlessly across different telecom networks.</div>
+            <div class="feature-box">Secure Transactions - End-to-end encryption ensures safe data sharing.</div>
+            <div class="feature-box">Smart AI Integration - AI optimizes data usage and suggests sharing opportunities.</div>
+        </div>
     </div>
-</div>
 
-<script>
-    function showSection(sectionId) {
-        document.querySelectorAll('.section').forEach(section => {
-            section.style.display = 'none';
-        });
-        document.getElementById(sectionId).style.display = 'block';
-    }
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
 
-    function login() {
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
+        function login() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
 
-        document.getElementById('userDisplay').innerText = username;
-        document.getElementById('emailDisplay').innerText = email;
-        document.getElementById('loginScreen').style.display = 'none';
-    }
+            document.getElementById('userDisplay').innerText = username;
+            document.getElementById('emailDisplay').innerText = email;
+            document.getElementById('loginScreen').style.display = 'none';
+        }
 
-    function toggleUserDetails() {
-        const userDetails = document.getElementById('userDetails');
-        userDetails.style.display = userDetails.style.display === 'block' ? 'none' : 'block';
-    }
+        function toggleUserDetails() {
+            const userDetails = document.getElementById('userDetails');
+            userDetails.style.display = userDetails.style.display === 'block' ? 'none' : 'block';
+        }
 
-    function logout() {
-        location.reload();
-    }
-</script>
-
+        function logout() {
+            location.reload();
+        }
+    </script>
 </body>
 </html>
