@@ -8,7 +8,6 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            text-align: center;
             background-color: #ffffff;
         }
         header {
@@ -16,21 +15,31 @@
             padding: 15px;
             color: white;
             font-size: 20px;
-        }
-        nav {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 10px;
-            background-color: #f8f9fa;
+            justify-content: space-between;
+            align-items: center;
         }
-        nav a {
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
             text-decoration: none;
-            color: black;
+            color: white;
+            font-weight: bold;
+        }
+        .register-btn {
+            background-color: white;
+            color: #0073e6;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
             font-weight: bold;
         }
         section {
+            display: none;
             margin: 30px;
+            text-align: center;
         }
         img {
             width: 80%;
@@ -38,8 +47,14 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
-        form {
-            margin: 20px;
+        .register-form {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         input {
             display: block;
@@ -57,21 +72,21 @@
     </style>
 </head>
 <body>
-    <header>Zlpha Connect</header>
-    <nav>
-        <a href="#about">About</a>
-        <a href="#founder">Founder</a>
-        <a href="#contact">Contact</a>
-    </nav><section>
+    <header>
+        <div class="nav-links">
+            <a href="#" onclick="showSection('about')">About</a>
+            <a href="#" onclick="showSection('founder')">Founder</a>
+            <a href="#" onclick="showSection('contact')">Contact</a>
+        </div>
+        <button class="register-btn" onclick="toggleRegister()">Sign Up</button>
+    </header><section>
     <h2>Share your unused data seamlessly</h2>
     <img src="image3.png" alt="Share your unused data">
 </section>
-
 <section>
     <h2>Get the best connectivity</h2>
     <img src="image5.png" alt="Best connectivity">
 </section>
-
 <section>
     <h2>Share, Sell or Trade your Data</h2>
     <img src="image2.png" alt="Trade your data">
@@ -81,18 +96,16 @@
     <h2>About Us</h2>
     <p>Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
 </section>
-
 <section id="founder">
     <h2>Founder</h2>
     <p>Pranav Jain, Founder & CEO of Zlpha Connect</p>
 </section>
-
 <section id="contact">
     <h2>Contact</h2>
     <p>Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a></p>
 </section>
 
-<section>
+<div class="register-form" id="registerForm">
     <h2>Register</h2>
     <form onsubmit="return registerUser()">
         <input type="text" id="name" placeholder="Enter your name" required>
@@ -101,9 +114,17 @@
         <button type="submit">Register</button>
     </form>
     <p id="message"></p>
-</section>
+</div>
 
 <script>
+    function showSection(sectionId) {
+        document.querySelectorAll('section').forEach(section => section.style.display = 'none');
+        document.getElementById(sectionId).style.display = 'block';
+    }
+    function toggleRegister() {
+        let form = document.getElementById('registerForm');
+        form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+    }
     function registerUser() {
         let name = document.getElementById('name').value;
         let email = document.getElementById('email').value;
@@ -119,7 +140,6 @@
         message.innerText = "Thank you for connecting to us, leverage your experience using Zlpha Connect!";
         message.style.color = "green";
         
-        // Simulated email sending (Backend needed for real email sending)
         console.log(Email sent to ${email}: Thank you for connecting to us, leverage your experience using Zlpha Connect!);
         
         return false;
