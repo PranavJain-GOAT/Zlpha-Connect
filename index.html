@@ -8,6 +8,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            text-align: center;
             background-color: #ffffff;
         }
         header {
@@ -15,25 +16,21 @@
             padding: 15px;
             color: white;
             font-size: 20px;
-            text-align: center;
         }
-        .container {
+        nav {
             display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        .about, .register {
-            width: 45%;
-        }
-        .hidden {
-            display: none;
-        }
-        button {
+            justify-content: center;
+            gap: 20px;
             padding: 10px;
-            background-color: #0073e6;
-            color: white;
-            border: none;
-            cursor: pointer;
+            background-color: #f8f9fa;
+        }
+        nav a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+        section {
+            margin: 30px;
         }
         img {
             width: 80%;
@@ -41,58 +38,72 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
-        section {
-            text-align: center;
-            margin: 30px;
+        form {
+            margin: 20px;
+        }
+        input {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 250px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <header>Zlpha Connect</header>
-    <div class="container">
-        <div class="about">
-            <button onclick="toggleSection('aboutDesc')">About Us</button>
-            <p id="aboutDesc" class="hidden">Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
-        </div>
-        <div class="register">
-            <button onclick="toggleSection('registerForm')">Register</button>
-            <div id="registerForm" class="hidden">
-                <form onsubmit="return registerUser()">
-                    <input type="text" id="name" placeholder="Enter your name" required>
-                    <input type="email" id="email" placeholder="Enter your email" required>
-                    <input type="password" id="password" placeholder="Enter your password" required>
-                    <button type="submit">Register</button>
-                </form>
-                <p id="message"></p>
-            </div>
-        </div>
-    </div><section>
-    <button onclick="toggleSection('section1')">Share your unused data seamlessly</button>
-    <div id="section1" class="hidden">
-        <img src="image3.png" alt="Share your unused data">
-    </div>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#founder">Founder</a>
+        <a href="#contact">Contact</a>
+    </nav><section>
+    <h2>Share your unused data seamlessly</h2>
+    <img src="image3.png" alt="Share your unused data">
 </section>
 
 <section>
-    <button onclick="toggleSection('section2')">Get the best connectivity</button>
-    <div id="section2" class="hidden">
-        <img src="image5.png" alt="Best connectivity">
-    </div>
+    <h2>Get the best connectivity</h2>
+    <img src="image5.png" alt="Best connectivity">
 </section>
 
 <section>
-    <button onclick="toggleSection('section3')">Share, Sell or Trade your Data</button>
-    <div id="section3" class="hidden">
-        <img src="image2.png" alt="Trade your data">
-    </div>
+    <h2>Share, Sell or Trade your Data</h2>
+    <img src="image2.png" alt="Trade your data">
+</section>
+
+<section id="about">
+    <h2>About Us</h2>
+    <p>Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
+</section>
+
+<section id="founder">
+    <h2>Founder</h2>
+    <p>Pranav Jain, Founder & CEO of Zlpha Connect</p>
+</section>
+
+<section id="contact">
+    <h2>Contact</h2>
+    <p>Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a></p>
+</section>
+
+<section>
+    <h2>Register</h2>
+    <form onsubmit="return registerUser()">
+        <input type="text" id="name" placeholder="Enter your name" required>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <input type="password" id="password" placeholder="Enter your password" required>
+        <button type="submit">Register</button>
+    </form>
+    <p id="message"></p>
 </section>
 
 <script>
-    function toggleSection(id) {
-        let section = document.getElementById(id);
-        section.classList.toggle('hidden');
-    }
-    
     function registerUser() {
         let name = document.getElementById('name').value;
         let email = document.getElementById('email').value;
@@ -108,7 +119,9 @@
         message.innerText = "Thank you for connecting to us, leverage your experience using Zlpha Connect!";
         message.style.color = "green";
         
-        console.log(Email sent to ${email}: Thank you for connecting to us!);
+        // Simulated email sending (Backend needed for real email sending)
+        console.log(Email sent to ${email}: Thank you for connecting to us, leverage your experience using Zlpha Connect!);
+        
         return false;
     }
 </script>
