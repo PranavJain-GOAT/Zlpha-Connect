@@ -13,89 +13,84 @@
             color: white;
         }
         .navbar {
-            background: #333;
-            padding: 15px;
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 10px;
             position: fixed;
             width: 100%;
             top: 0;
             left: 0;
-            text-align: center;
         }
         .navbar a {
             color: white;
+            padding: 10px 20px;
             text-decoration: none;
-            padding: 14px 20px;
-            font-size: 18px;
         }
         .navbar a:hover {
-            color: #00ffcc;
+            background-color: #575757;
         }
-        .container {
-            margin-top: 80px;
-            padding: 20px;
+        .section {
+            display: none;
+            padding: 100px 20px;
         }
-        h1 {
-            color: #00ffcc;
-            animation: fadeIn 2s ease-in-out;
+        .welcome {
+            display: block;
+            padding-top: 80px;
         }
-        h2 {
-            color: #ff4500;
-            animation: fadeIn 3s ease-in-out;
-        }
-        p {
-            font-size: 18px;
-            animation: fadeIn 4s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .linkedin-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            border: none;
+        .linkedin-button {
             background-color: #0077b5;
             color: white;
+            padding: 10px 20px;
+            text-decoration: none;
             border-radius: 5px;
-            cursor: pointer;
-        }
-        .linkedin-btn:hover {
-            background-color: #005582;
+            display: inline-block;
+            margin-top: 20px;
         }
     </style>
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
 </head>
 <body>
     <div class="navbar">
-        <a href="#founder">About the Founder</a>
-        <a href="#about">About the App</a>
-        <a href="#features">Features of the App</a>
-        <a href="#contact">Contact via LinkedIn</a>
-    </div><div class="container">
+        <a href="#" onclick="showSection('welcome')">Home</a>
+        <a href="#" onclick="showSection('about-founder')">About the Founder</a>
+        <a href="#" onclick="showSection('about-app')">About the App</a>
+        <a href="#" onclick="showSection('features')">Features</a>
+        <a href="#" onclick="showSection('contact')">Contact</a>
+    </div><div id="welcome" class="section welcome">
     <h1>Welcome to Zlpha Connect</h1>
-    <h2>Revolutionizing Mobile Data Sharing</h2>
-    
-    <section id="founder">
-        <h2>About the Founder</h2>
-        <p>Pranav Jain, a visionary entrepreneur and a student at NIT Trichy, aims to revolutionize the way mobile data is shared and utilized.</p>
-    </section>
+    <p>Revolutionizing Mobile Data Sharing</p>
+</div>
 
-    <section id="about">
-        <h2>About the App</h2>
-        <p>Zlpha Connect is a cross-network platform allowing users to share, trade, and monetize unused mobile data, ensuring seamless connectivity.</p>
-    </section>
+<div id="about-founder" class="section">
+    <h1>About the Founder</h1>
+    <p>A revolutionary and ambitious entrepreneur, Pranav Jain from NIT Trichy, is on a mission to transform mobile data usage and sharing across the globe.</p>
+</div>
 
-    <section id="features">
-        <h2>Features of the App</h2>
-        <p>- Share unused mobile data across networks</p>
-        <p>- Trade and monetize extra data</p>
-        <p>- Ensure uninterrupted connectivity anywhere</p>
-    </section>
+<div id="about-app" class="section">
+    <h1>About the App</h1>
+    <p>Zlpha Connect is designed to enable seamless cross-network data sharing, reducing waste and ensuring uninterrupted connectivity.</p>
+</div>
 
-    <section id="contact">
-        <h2>Contact via LinkedIn</h2>
-        <button class="linkedin-btn" onclick="window.location.href='https://www.linkedin.com/in/pranavjaineluru'">Visit LinkedIn</button>
-    </section>
+<div id="features" class="section">
+    <h1>Features</h1>
+    <ul>
+        <li>Cross-network data sharing</li>
+        <li>Monetization of unused mobile data</li>
+        <li>Seamless connectivity across providers</li>
+    </ul>
+</div>
+
+<div id="contact" class="section">
+    <h1>Contact</h1>
+    <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank" class="linkedin-button">Connect on LinkedIn</a>
 </div>
 
 </body>
