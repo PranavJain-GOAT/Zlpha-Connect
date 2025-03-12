@@ -12,84 +12,91 @@
             background-color: black;
             color: white;
         }
+        .navbar {
+            background: #333;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            text-align: center;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 18px;
+        }
+        .navbar a:hover {
+            color: #00ffcc;
+        }
         .container {
-            width: 80%;
-            margin: 50px auto;
+            margin-top: 80px;
             padding: 20px;
         }
-        h1, h2, p {
-            opacity: 0;
-            animation: fadeIn 2s ease-in forwards;
+        h1 {
+            color: #00ffcc;
+            animation: fadeIn 2s ease-in-out;
         }
-        h1 { animation-delay: 0.5s; }
-        h2 { animation-delay: 1s; }
-        p { animation-delay: 1.5s; }
+        h2 {
+            color: #ff4500;
+            animation: fadeIn 3s ease-in-out;
+        }
+        p {
+            font-size: 18px;
+            animation: fadeIn 4s ease-in-out;
+        }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .slideshow-container {
-            position: relative;
-            max-width: 600px;
-            margin: 20px auto;
-        }
-        .slide {
-            display: none;
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.2);
-        }
-        .slide.active {
-            display: block;
-        }
-        .prev, .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-            color: white;
-            background: rgba(0, 0, 0, 0.5);
+        .linkedin-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
             border: none;
-            padding: 10px;
+            background-color: #0077b5;
+            color: white;
             border-radius: 5px;
+            cursor: pointer;
         }
-        .prev { left: 10px; }
-        .next { right: 10px; }
+        .linkedin-btn:hover {
+            background-color: #005582;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Zlpha Connect</h1>
-        <h2>Revolutionizing Mobile Data Sharing</h2>
-        <p><strong>Founder:</strong> Pranav Jain - Innovator & Visionary</p>
-        <p><strong>Vision:</strong> Empower users with control over their data, reduce waste, and build a seamless digital ecosystem.</p><div class="slideshow-container">
-        <img class="slide active" src="ss2.png" alt="Slide 1">
-        <img class="slide" src="ss7.png" alt="Slide 2">
-        <img class="slide" src="ss19.png" alt="Slide 3">
-        <button class="prev" onclick="prevSlide()">&#10094;</button>
-        <button class="next" onclick="nextSlide()">&#10095;</button>
-    </div>
-</div>
+    <div class="navbar">
+        <a href="#founder">About the Founder</a>
+        <a href="#about">About the App</a>
+        <a href="#features">Features of the App</a>
+        <a href="#contact">Contact via LinkedIn</a>
+    </div><div class="container">
+    <h1>Welcome to Zlpha Connect</h1>
+    <h2>Revolutionizing Mobile Data Sharing</h2>
+    
+    <section id="founder">
+        <h2>About the Founder</h2>
+        <p>Pranav Jain, a visionary entrepreneur and a student at NIT Trichy, aims to revolutionize the way mobile data is shared and utilized.</p>
+    </section>
 
-<script>
-    let slideIndex = 0;
-    const slides = document.querySelectorAll(".slide");
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.toggle("active", i === index);
-        });
-    }
-    function nextSlide() {
-        slideIndex = (slideIndex + 1) % slides.length;
-        showSlide(slideIndex);
-    }
-    function prevSlide() {
-        slideIndex = (slideIndex - 1 + slides.length) % slides.length;
-        showSlide(slideIndex);
-    }
-    setInterval(nextSlide, 10000);
-</script>
+    <section id="about">
+        <h2>About the App</h2>
+        <p>Zlpha Connect is a cross-network platform allowing users to share, trade, and monetize unused mobile data, ensuring seamless connectivity.</p>
+    </section>
+
+    <section id="features">
+        <h2>Features of the App</h2>
+        <p>- Share unused mobile data across networks</p>
+        <p>- Trade and monetize extra data</p>
+        <p>- Ensure uninterrupted connectivity anywhere</p>
+    </section>
+
+    <section id="contact">
+        <h2>Contact via LinkedIn</h2>
+        <button class="linkedin-btn" onclick="window.location.href='https://www.linkedin.com/in/pranavjaineluru'">Visit LinkedIn</button>
+    </section>
+</div>
 
 </body>
 </html>
