@@ -3,7 +3,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zlpha Connect - Revolutionizing Data Sharing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,14 +56,43 @@
         #home {
             display: block;
         }
-        .form-container {
-            background: rgba(255, 255, 255, 0.1);
+        .linkedin-button {
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            background-color: #0077b5;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .linkedin-button:hover {
+            background-color: #005582;
+        }
+        .feature-box {
+            background: #222;
             padding: 20px;
+            margin: 20px;
             border-radius: 10px;
-            width: 300px;
-            margin: auto;
-            box-shadow: 0px 4px 10px rgba(0, 255, 204, 0.5);
-            animation: fadeIn 2s;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2000;
+        }
+        .login-box {
+            background: #111;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
         }
         input {
             width: 100%;
@@ -72,67 +100,56 @@
             margin: 10px 0;
             border: none;
             border-radius: 5px;
-            font-size: 1rem;
         }
-        .btn {
+        .login-button {
             background: #00ffcc;
-            color: black;
-            font-size: 1.2rem;
+            color: #000;
             padding: 10px;
-            width: 100%;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
+            font-size: 1.2rem;
         }
-        .btn:hover {
+        .login-button:hover {
             background: #ffcc00;
-        }
-        .forgot-password {
-            color: #ffcc00;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="menu">
-        <a href="#" onclick="showSection('home')">Home</a>
-        <a href="#" onclick="showSection('founder')">About the Founder</a>
-        <a href="#" onclick="showSection('app')">About the App</a>
-        <a href="#" onclick="showSection('features')">Features</a>
-        <a href="#" onclick="showSection('login')">Login</a>
-        <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank">Connect on LinkedIn</a>
-    </div><div class="container">
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button class="login-button" onclick="login()">Login</button>
+            <p><a href="#" style="color:#00ffcc;">Forgot Password?</a></p>
+        </div>
+    </div><div class="menu">
+    <a href="#" onclick="showSection('home')">Home</a>
+    <a href="#" onclick="showSection('founder')">About the Founder</a>
+    <a href="#" onclick="showSection('app')">About the App</a>
+    <a href="#" onclick="showSection('features')">Features</a>
+    <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank" class="linkedin-button">Connect on LinkedIn</a>
+</div>
+
+<div class="container">
     <div id="home" class="section">
         <h1>Welcome to Zlpha Connect</h1>
         <p>Revolutionizing mobile data sharing for a seamless digital experience.</p>
     </div>
-
     <div id="founder" class="section">
         <h1>Meet the Founder</h1>
         <p>Pranav Jain, an ambitious entrepreneur from NIT Trichy, is on a mission to transform mobile data sharing.</p>
     </div>
-
     <div id="app" class="section">
         <h1>About the App</h1>
         <p>Zlpha Connect enables users to share, trade, and monetize unused mobile data.</p>
     </div>
-
     <div id="features" class="section">
         <h1>Key Features</h1>
-        <p>1. Cross-network sharing - Share data between different telecom providers.</p>
-        <p>2. Secure Transactions - End-to-end encrypted data sharing.</p>
-        <p>3. Data Monetization - Users can trade unused data for rewards.</p>
-    </div>
-
-    <div id="login" class="section">
-        <h1>Login to Zlpha Connect</h1>
-        <div class="form-container">
-            <input type="text" placeholder="Enter your username" required>
-            <input type="email" placeholder="Enter your email" required>
-            <input type="password" placeholder="Enter your password" required>
-            <button class="btn">Login</button>
-            <p class="forgot-password">Forgot Password?</p>
-        </div>
+        <div class="feature-box">Cross-Network Sharing - Users can share data seamlessly across different telecom networks.</div>
+        <div class="feature-box">Secure Transactions - End-to-end encryption ensures safe data sharing.</div>
+        <div class="feature-box">Smart AI Integration - AI optimizes data usage and suggests sharing opportunities.</div>
     </div>
 </div>
 
@@ -142,6 +159,9 @@
             section.style.display = 'none';
         });
         document.getElementById(sectionId).style.display = 'block';
+    }
+    function login() {
+        document.getElementById('loginScreen').style.display = 'none';
     }
 </script>
 
