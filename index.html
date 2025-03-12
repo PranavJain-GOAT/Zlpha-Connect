@@ -2,119 +2,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zlpha Connect - Revolutionizing Data Sharing</title>
+    <title>Zlpha Connect</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #000;
-            color: #fff;
-            overflow-x: hidden;
-        }
-        .container {
-            padding: 50px;
-        }
-        h1 {
-            font-size: 3rem;
-            color: #00ffcc;
-            animation: fadeIn 2s ease-in;
-        }
-        p {
-            font-size: 1.5rem;
-            color: #ddd;
-            animation: slideUp 2s ease-in;
         }
         .menu {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: #111;
-            padding: 15px 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            background-color: #222;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
             z-index: 1000;
         }
-        .menu a {
-            text-decoration: none;
-            color: #00ffcc;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: color 0.3s;
+        .menu button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            margin: 0 20px;
+            cursor: pointer;
         }
-        .menu a:hover {
-            color: #ffcc00;
-        }
-        .section {
+        .container {
+            margin-top: 80px;
             display: none;
-            padding: 50px;
-            animation: fadeIn 1.5s ease-in;
+            padding: 20px;
         }
         #home {
             display: block;
         }
-        .linkedin-button {
-            padding: 15px 25px;
-            font-size: 1.2rem;
+        .typing {
+            font-size: 30px;
+            font-weight: bold;
+            color: #00FF00;
+        }
+        .linkedin-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
             background-color: #0077b5;
-            color: #fff;
+            color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
+            border-radius: 5px;
         }
-        .linkedin-button:hover {
+        .linkedin-btn:hover {
             background-color: #005582;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="menu">
-        <a href="#" onclick="showSection('home')">Home</a>
-        <a href="#" onclick="showSection('founder')">About the Founder</a>
-        <a href="#" onclick="showSection('app')">About the App</a>
-        <a href="#" onclick="showSection('features')">Features</a>
-        <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank" class="linkedin-button">Connect on LinkedIn</a>
-    </div><div class="container">
-    <div id="home" class="section">
-        <h1>Welcome to Zlpha Connect</h1>
-        <p>Revolutionizing mobile data sharing for a seamless digital experience.</p>
-    </div>
+        <button onclick="showSection('home')">Home</button>
+        <button onclick="showSection('founder')">About the Founder</button>
+        <button onclick="showSection('app')">About the App</button>
+        <button onclick="showSection('features')">Features</button>
+        <button onclick="window.location.href='https://www.linkedin.com/in/pranavjaineluru'">LinkedIn</button>
+    </div><div id="home" class="container">
+    <h1 class="typing">Welcome to Zlpha Connect</h1>
+    <p>Your ultimate smart data-sharing solution!</p>
+</div>
 
-    <div id="founder" class="section">
-        <h1>Meet the Founder</h1>
-        <p>Pranav Jain, an ambitious entrepreneur from NIT Trichy, is on a mission to transform mobile data sharing.</p>
-    </div>
+<div id="founder" class="container">
+    <h1>About the Founder</h1>
+    <p>A revolutionary and ambitious entrepreneur, Pranav Jain from NIT Trichy, is dedicated to transforming mobile data sharing.</p>
+</div>
 
-    <div id="app" class="section">
-        <h1>About the App</h1>
-        <p>Zlpha Connect enables users to share, trade, and monetize unused mobile data.</p>
-    </div>
+<div id="app" class="container">
+    <h1>About the App</h1>
+    <p>Zlpha Connect is designed to make mobile data sharing seamless, ensuring no data goes to waste.</p>
+</div>
 
-    <div id="features" class="section">
-        <h1>Key Features</h1>
-        <p>Cross-network sharing, seamless integration, and secure data transactions.</p>
-    </div>
+<div id="features" class="container">
+    <h1>Features</h1>
+    <ul>
+        <li>Seamless cross-network data sharing</li>
+        <li>Secure data trading options</li>
+        <li>Intelligent usage tracking</li>
+    </ul>
 </div>
 
 <script>
     function showSection(sectionId) {
-        document.querySelectorAll('.section').forEach(section => {
-            section.style.display = 'none';
-        });
+        document.querySelectorAll('.container').forEach(section => section.style.display = 'none');
         document.getElementById(sectionId).style.display = 'block';
     }
+    
+    function typeWriterEffect(element, text, i = 0) {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            setTimeout(() => typeWriterEffect(element, text, i + 1), 100);
+        }
+    }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const typingElement = document.querySelector('.typing');
+        const text = "Welcome to Zlpha Connect";
+        typingElement.innerHTML = "";
+        typeWriterEffect(typingElement, text);
+    });
 </script>
 
 </body>
