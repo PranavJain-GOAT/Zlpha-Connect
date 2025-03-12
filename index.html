@@ -3,127 +3,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zlpha Connect</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background-color: #ffffff;
-        }
-        header {
-            background-color: #0073e6;
-            padding: 15px;
-            color: white;
-            font-size: 20px;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 10px;
-            background-color: #f8f9fa;
-        }
-        nav a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-        }
-        section {
-            margin: 30px;
-        }
-        img {
-            width: 80%;
-            max-width: 800px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        form {
-            margin: 20px;
-        }
-        input {
-            display: block;
-            margin: 10px auto;
-            padding: 10px;
-            width: 250px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #0073e6;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <header>Zlpha Connect</header>
-    <nav>
-        <a href="#about">About</a>
-        <a href="#founder">Founder</a>
-        <a href="#contact">Contact</a>
-    </nav><section>
-    <h2>Share your unused data seamlessly</h2>
-    <img src="image3.png" alt="Share your unused data">
+    <header>
+        <div class="navbar">
+            <div class="logo">Zlpha Connect</div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="register-btn" onclick="openRegisterModal()">Register</button>
+            <div class="user-icon" onclick="toggleUserMenu()">👤</div>
+            <div id="user-menu" class="user-menu hidden">
+                <p>Email: user@example.com</p>
+            </div>
+        </div>
+    </header><section id="about" class="section">
+    <h2>About Zlpha Connect</h2>
+    <p>Connecting people with seamless data sharing.</p>
 </section>
 
-<section>
-    <h2>Get the best connectivity</h2>
-    <img src="image5.png" alt="Best connectivity">
+<section id="features" class="section">
+    <h2>Features</h2>
+    <div class="feature">
+        <img src="image3.png" alt="Share unused data">
+        <p>Share your unused data seamlessly worldwide.</p>
+    </div>
+    <div class="feature">
+        <img src="image5.png" alt="Best Connectivity">
+        <p>Get the best network connectivity in your area.</p>
+    </div>
+    <div class="feature">
+        <img src="image2.png" alt="Trade Data">
+        <p>Share, sell, or trade your data!</p>
+    </div>
 </section>
 
-<section>
-    <h2>Share, Sell or Trade your Data</h2>
-    <img src="image2.png" alt="Trade your data">
-</section>
-
-<section id="about">
-    <h2>About Us</h2>
-    <p>Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
-</section>
-
-<section id="founder">
-    <h2>Founder</h2>
-    <p>Pranav Jain, Founder & CEO of Zlpha Connect</p>
-</section>
-
-<section id="contact">
+<section id="contact" class="section">
     <h2>Contact</h2>
-    <p>Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a></p>
+    <p>Connect with us on <a href="https://linkedin.com">LinkedIn</a></p>
 </section>
 
-<section>
-    <h2>Register</h2>
-    <form onsubmit="return registerUser()">
-        <input type="text" id="name" placeholder="Enter your name" required>
-        <input type="email" id="email" placeholder="Enter your email" required>
-        <input type="password" id="password" placeholder="Enter your password" required>
-        <button type="submit">Register</button>
-    </form>
-    <p id="message"></p>
-</section>
+<div id="register-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeRegisterModal()">&times;</span>
+        <h2>Register</h2>
+        <form id="register-form">
+            <label>Email:</label>
+            <input type="email" id="email" required>
+            <label>Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</div>
 
 <script>
-    function registerUser() {
-        let name = document.getElementById('name').value;
-        let email = document.getElementById('email').value;
-        let password = document.getElementById('password').value;
-        let message = document.getElementById('message');
-        
-        if (password !== 'Parasmal1$') {
-            message.innerText = "Incorrect password!";
-            message.style.color = "red";
-            return false;
-        }
-        
-        message.innerText = "Thank you for connecting to us, leverage your experience using Zlpha Connect!";
-        message.style.color = "green";
-        
-        // Simulated email sending (Backend needed for real email sending)
-        console.log(Email sent to ${email}: Thank you for connecting to us, leverage your experience using Zlpha Connect!);
-        
-        return false;
+    function openRegisterModal() {
+        document.getElementById('register-modal').classList.remove('hidden');
     }
+    function closeRegisterModal() {
+        document.getElementById('register-modal').classList.add('hidden');
+    }
+    function toggleUserMenu() {
+        document.getElementById('user-menu').classList.toggle('hidden');
+    }
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let password = document.getElementById('password').value;
+        if (password === 'Parasmal1$') {
+            alert('Thank you for connecting with us! Leverage your experience using Zlpha Connect.');
+        } else {
+            alert('Invalid password!');
+        }
+    });
 </script>
 
 </body>
