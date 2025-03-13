@@ -47,11 +47,20 @@
             padding: 20px;
             text-align: center; /* Center the content */
         }
-        img {
-            width: 80%;
+        .slider {
+            width: 100%;
             max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slides img {
+            width: 100%;
             border-radius: 10px;
-            margin-bottom: 20px;
         }
         form {
             margin: 20px auto;
@@ -105,20 +114,14 @@
 
     <!-- Content (Hidden Until Registration) -->
     <div class="container" id="content">
-        <section>
-            <h2>Share your unused data seamlessly</h2>
-            <img src="image3.png" alt="Share your unused data">
-        </section>
-
-        <section>
-            <h2>Get the best connectivity</h2>
-            <img src="image5.png" alt="Best connectivity">
-        </section>
-
-        <section>
-            <h2>Share, Sell or Trade your Data</h2>
-            <img src="image2.png" alt="Trade your data">
-        </section>
+        <!-- Image Slider -->
+        <div class="slider">
+            <div class="slides">
+                <img src="image3.png" alt="Share your unused data">
+                <img src="image5.png" alt="Best connectivity">
+                <img src="image2.png" alt="Trade your data">
+            </div>
+        </div>
 
         <div class="user-details" id="userDetails">
             <p id="userName"></p>
@@ -128,6 +131,20 @@
     </div>
 
     <script>
+        // Image Slider Functionality
+        let slideIndex = 0;
+        const slides = document.querySelector('.slides');
+        const totalSlides = document.querySelectorAll('.slides img').length;
+
+        function showNextSlide() {
+            slideIndex = (slideIndex + 1) % totalSlides;
+            slides.style.transform = `translateX(-${slideIndex * 100}%)`;
+        }
+
+        // Automatically transition slides every 10 seconds
+        setInterval(showNextSlide, 10000);
+
+        // Registration Functionality
         function registerUser() {
             let name = document.getElementById('name').value;
             let email = document.getElementById('email').value;
