@@ -101,14 +101,28 @@
         .logout-btn {
             margin-top: 10px;
         }
+        .section-content {
+            display: none; /* Hide section content by default */
+            margin-top: 20px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .section-content.active {
+            display: block; /* Show active section content */
+        }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <a href="#about">About</a>
-            <a href="#founder">Founder</a>
-            <a href="#contact">Contact</a>
+            <a href="#about" onclick="showSection('about')">About</a>
+            <a href="#founder" onclick="showSection('founder')">Founder</a>
+            <a href="#contact" onclick="showSection('contact')">Contact</a>
         </nav>
         <div class="logo">Zlpha Connect</div>
         <img src="user-icon.png" alt="User Icon" class="user-icon" id="userIcon">
@@ -155,6 +169,30 @@
             </div>
         </div>
 
+        <!-- About Section -->
+        <div id="about" class="section-content">
+            <h2>About Us</h2>
+            <p>
+                At Zlpha Connect, we envision a world where unused mobile data never goes to waste. Our platform empowers users to share, sell, trade, and optimize their mobile data seamlessly. With cutting-edge technology and a user-first approach, we aim to revolutionize data accessibility globally. Whether you're looking to save costs or maximize your connectivity, Zlpha Connect is here to redefine the way you use mobile data.
+            </p>
+        </div>
+
+        <!-- Founder Section -->
+        <div id="founder" class="section-content">
+            <h2>Founder</h2>
+            <p>
+                Pranav Jain, the Founder and CEO of Zlpha Connect, is a visionary entrepreneur driven by the mission to reshape the future of mobile data sharing. With a strong background in technology and innovation, Pranav conceptualized Zlpha Connect to bridge the gap between surplus data and those in need. His passion for building impactful solutions fuels the growth of Zlpha Connect into a global platform that enhances digital connectivity for everyone.
+            </p>
+        </div>
+
+        <!-- Contact Section -->
+        <div id="contact" class="section-content">
+            <h2>Contact Us</h2>
+            <p>
+                We'd love to hear from you! Whether you have a query, a collaboration idea, or simply want to stay updated with our journey, feel free to reach out. Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a> or drop us an email at <a href="mailto:support@zlphaconnect.com">support@zlphaconnect.com</a>. Let's build the future of data sharing together!
+            </p>
+        </div>
+
         <div class="user-details" id="userDetails">
             <p id="userName"></p>
             <p id="userEmail"></p>
@@ -175,6 +213,17 @@
 
         // Automatically transition slides every 10 seconds
         setInterval(showNextSlide, 10000);
+
+        // Show Section Content
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the selected section
+            document.getElementById(sectionId).classList.add('active');
+        }
 
         // Registration Functionality
         function registerUser() {
