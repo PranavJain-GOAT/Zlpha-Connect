@@ -829,26 +829,26 @@
 
         // Show Section Content with enhanced animations
         function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section-content').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Show the selected section
-            const selectedSection = document.getElementById(sectionId);
-            selectedSection.classList.add('active');
-            
-            // Animate the section appearance
-            gsap.from(`#${sectionId}`, {
-                duration: 0.5,
-                y: 20,
-                opacity: 0,
-                ease: "power2.out"
-            });
-            
-            // Scroll to section
-            selectedSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+    // Hide all sections
+    document.querySelectorAll('.section-content').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Show the selected section
+    const selectedSection = document.getElementById(sectionId);
+    selectedSection.classList.add('active');
+
+    // Animate the section appearance
+    gsap.from(`#${sectionId}`, {
+        duration: 0.5,
+        y: 20,
+        opacity: 0,
+        ease: "power2.out"
+    });
+
+    // Optional: Smoothly scroll to the section without forcing it to stay in view
+    selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
         // Registration Functionality with enhanced animations
         function registerUser() {
