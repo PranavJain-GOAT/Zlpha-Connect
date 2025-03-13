@@ -358,7 +358,7 @@
         }
 
         .section-content.active {
-            display: block;
+            display: block; /* Show section when active */
         }
 
         .section-content:hover {
@@ -418,7 +418,7 @@
             width: 0;
             height: 3px;
             background-color: white;
-            animation: loading 10s ease-in-out infinite;
+            animation: loading 2s ease-in-out infinite;
         }
 
         @keyframes loading {
@@ -833,21 +833,24 @@
             document.querySelectorAll('.section-content').forEach(section => {
                 section.classList.remove('active');
             });
-            
+
             // Show the selected section
             const selectedSection = document.getElementById(sectionId);
             selectedSection.classList.add('active');
-            
+
             // Animate the section appearance
             gsap.from(`#${sectionId}`, {
                 duration: 0.5,
                 y: 20,
                 opacity: 0,
-                ease: "power2.out"
+                ease: "power2.out",
+                onComplete: function() {
+                    // Smoothly scroll to the section after animation completes
+                    setTimeout(() => {
+                        selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100); // Small delay to ensure smooth transition
+                }
             });
-            
-            // Scroll to section
-            selectedSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         // Registration Functionality with enhanced animations
@@ -916,7 +919,7 @@
                 }
             });
             
-          // Set user details
+            // Set user details
             userName.innerText = `Name: ${name}`;
             userEmail.innerText = `Email: ${email}`;
             
@@ -991,355 +994,6 @@
                     });
                 });
             });
-        });
-
-        // Add interactive data visualization elements
-        function addDataVisualization() {
-            // Only add visualization after login
-            if (document.getElementById('content').style.display !== 'block') return;
-
-            const aboutSection = document.getElementById('about');
-            
-            // Create a canvas for data visualization
-            const vizCanvas = document.createElement('canvas');
-            vizCanvas.id = 'dataVizCanvas';
-            vizCanvas.width = 800;
-            vizCanvas.height = 300;
-            vizCanvas.style.maxWidth = '100%';
-            vizCanvas.style.margin = '20px auto';
-            vizCanvas.style.display = 'block';
-            
-            aboutSection.appendChild(vizCanvas);
-            
-            // Simple data visualization using canvas
-            const ctx = vizCanvas.getContext('2d');
-            
-            // Data point animation
-            function animateDataPoints() {
-                const dataPoints = [
-                    { x: 100, y: 200, radius: 15, color: '#0073e6', speedX: 0.5, speedY: 0.3 },
-                    { x: 300, y: 150, radius: 10, color: '#00a2ff', speedX: -0.3, speedY: 0.4 },
-                    { x: 500, y: 100, radius: 20, color: '#0045a5', speedX: 0.2, speedY: -0.5 },
-                    { x: 650, y: 180, radius: 12, color: '#5ea8ff', speedX: -0.4, speedY: -0.2 }
-                ];
-                
-                function animate() {
-                    ctx.clearRect(0, 0, vizCanvas.width, vizCanvas.height);
-                    
-                    // Draw connecting lines
-                    ctx.beginPath();
-                    ctx.moveTo(dataPoints[0].x, dataPoints[0].y);
-                    for (let i = 1; i < dataPoints.length; i++) {
-                        ctx.lineTo(dataPoints[i].x, dataPoints[i].y);
-                    }
-                    ctx.strokeStyle = 'rgba(0, 115, 230, 0.5)';
-                    ctx.stroke();
-                    
-                    // Draw and animate data points
-                    dataPoints.forEach((point, i) => {
-                        // Update position
-                        point.x += point.speedX;
-                        point.y += point.speedY;
-                        
-                        // Boundary checks
-                        if (point.x <= point.radius || point.x >= vizCanvas.width - point.radius) {
-                            point.speedX *= -1;
-                        }
-                        if (point.y <= point.radius || point.y >= vizCanvas.height - point.radius) {
-                            point.speedY *= -1;
-                        }
-                        
-                        // Draw point
-                        ctx.beginPath();
-                        ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-                        ctx.fillStyle = point.color;
-                        ctx.fill();
-                        
-                        // Add labels
-                        ctx.fillStyle = '#333';
-                        ctx.font = '12px Arial';
-                        ctx.fillText(`Data ${i+1}`, point.x - 20, point.y - point.radius - 5);
-                    });
-                    
-                    requestAnimationFrame(animate);
-                }
-                
-                animate();
-            }
-            
-            // Start animation when about section is shown
-            document.querySelector('a[href="#about"]').addEventListener('click', function() {
-                setTimeout(animateDataPoints, 500);
-            });
-        }
-
-        // Add 3D mobile phone model to Founder section
-        function add3DPhoneModel() {
-            const founderSection = document.getElementById('founder');
-            
-            // Create container for 3D phone
-            const phoneContainer = document.createElement('div');
-            phoneContainer.id = 'phoneModel';
-            phoneContainer.style.width = '200px';
-            phoneContainer.style.height = '400px';
-            phoneContainer.style.margin = '30px auto';
-            phoneContainer.style.position = 'relative';
-            
-            founderSection.appendChild(phoneContainer);
-            
-            // Create 3D phone using Three.js
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, 200/400, 0.1, 1000);
-            
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(200, 400);
-            renderer.setClearColor(0x000000, 0);
-            phoneContainer.appendChild(renderer.domElement);
-            
-            // Create phone
-            const phoneGeometry = new THREE.BoxGeometry(1, 2, 0.1);
-            const phoneMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x0073e6,
-                specular: 0x111111,
-                shininess: 100
-            });
-            const phone = new THREE.Mesh(phoneGeometry, phoneMaterial);
-            scene.add(phone);
-            
-            // Create screen
-            const screenGeometry = new THREE.BoxGeometry(0.85, 1.7, 0.01);
-            const screenMaterial = new THREE.MeshBasicMaterial({ color: 0x222222 });
-            const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-            screen.position.z = 0.06;
-            phone.add(screen);
-            
-            // Add app icons (simple colored cubes)
-            const iconSize = 0.15;
-            const iconGeometry = new THREE.BoxGeometry(iconSize, iconSize, 0.01);
-            
-            const iconColors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff];
-            const iconPositions = [
-                [-0.3, 0.6, 0], [0, 0.6, 0], [0.3, 0.6, 0],
-                [-0.3, 0.3, 0], [0, 0.3, 0], [0.3, 0.3, 0]
-            ];
-            
-            iconPositions.forEach((pos, i) => {
-                const iconMaterial = new THREE.MeshBasicMaterial({ color: iconColors[i] });
-                const icon = new THREE.Mesh(iconGeometry, iconMaterial);
-                icon.position.set(pos[0], pos[1], pos[2]);
-                screen.add(icon);
-            });
-            
-            // Add Z logo to bottom of phone
-            const logoGeometry = new THREE.CircleGeometry(0.1, 32);
-            const logoMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const logo = new THREE.Mesh(logoGeometry, logoMaterial);
-            logo.position.set(0, -0.75, 0.06);
-            phone.add(logo);
-            
-            // Add lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(1, 1, 2);
-            scene.add(directionalLight);
-            
-            // Position camera
-            camera.position.z = 3;
-            
-            // Animation
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                phone.rotation.y += 0.01;
-                
-                renderer.render(scene, camera);
-            }
-            
-            animate();
-            
-            // Make phone interactive
-            phoneContainer.addEventListener('mousemove', function(e) {
-                const rect = phoneContainer.getBoundingClientRect();
-                const mouseX = ((e.clientX - rect.left) / 200) * 2 - 1;
-                const mouseY = -((e.clientY - rect.top) / 400) * 2 + 1;
-                
-                gsap.to(phone.rotation, {
-                    x: mouseY * 0.3,
-                    y: mouseX * 0.5,
-                    duration: 0.5
-                });
-            });
-            
-            phoneContainer.addEventListener('mouseleave', function() {
-                gsap.to(phone.rotation, {
-                    x: 0,
-                    y: 0,
-                    duration: 1
-                });
-            });
-        }
-        
-        // Add 3D data connection visualization to contact section
-        function addDataConnectionViz() {
-            const contactSection = document.getElementById('contact');
-            
-            // Create container for 3D visualization
-            const vizContainer = document.createElement('div');
-            vizContainer.id = 'dataConnectionViz';
-            vizContainer.style.width = '100%';
-            vizContainer.style.height = '300px';
-            vizContainer.style.margin = '30px auto';
-            vizContainer.style.position = 'relative';
-            
-            contactSection.appendChild(vizContainer);
-            
-            // Create 3D data connection visualization using Three.js
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, vizContainer.clientWidth/300, 0.1, 1000);
-            
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(vizContainer.clientWidth, 300);
-            renderer.setClearColor(0x000000, 0);
-            vizContainer.appendChild(renderer.domElement);
-            
-            // Create nodes
-            const nodeGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-            const nodeMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x0073e6,
-                specular: 0x555555,
-                shininess: 30
-            });
-            
-            const nodes = [];
-            const nodeCount = 10;
-            
-            for (let i = 0; i < nodeCount; i++) {
-                const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
-                
-                // Random position within a sphere
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.acos(2 * Math.random() - 1);
-                const r = 5 + Math.random() * 3;
-                
-                node.position.x = r * Math.sin(phi) * Math.cos(theta);
-                node.position.y = r * Math.sin(phi) * Math.sin(theta);
-                node.position.z = r * Math.cos(phi);
-                
-                scene.add(node);
-                nodes.push(node);
-            }
-            
-            // Create connections between nodes
-            const linesMaterial = new THREE.LineBasicMaterial({ 
-                color: 0x00a2ff,
-                transparent: true,
-                opacity: 0.6
-            });
-            
-            const connections = [];
-            
-            for (let i = 0; i < nodeCount; i++) {
-                for (let j = i + 1; j < nodeCount; j++) {
-                    if (Math.random() > 0.7) continue; // Only create some connections
-                    
-                    const geometry = new THREE.BufferGeometry().setFromPoints([
-                        nodes[i].position,
-                        nodes[j].position
-                    ]);
-                    
-                    const line = new THREE.Line(geometry, linesMaterial);
-                    scene.add(line);
-                    connections.push({
-                        line: line,
-                        start: i,
-                        end: j
-                    });
-                }
-            }
-            
-            // Add lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(1, 1, 2);
-            scene.add(directionalLight);
-            
-            // Position camera
-            camera.position.z = 12;
-            
-            // Animation
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                // Slowly rotate the entire node network
-                nodes.forEach(node => {
-                    node.rotation.y += 0.005;
-                    node.rotation.x += 0.002;
-                });
-                
-                // Update connection lines
-                connections.forEach(connection => {
-                    connection.line.geometry.setFromPoints([
-                        nodes[connection.start].position,
-                        nodes[connection.end].position
-                    ]);
-                    connection.line.geometry.attributes.position.needsUpdate = true;
-                });
-                
-                // Slow camera rotation
-                camera.position.x = 12 * Math.sin(Date.now() * 0.0002);
-                camera.position.z = 12 * Math.cos(Date.now() * 0.0002);
-                camera.lookAt(scene.position);
-                
-                renderer.render(scene, camera);
-            }
-            
-            animate();
-        }
-        
-        // Initialize 3D features after registration
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize event listeners for section navigation
-            document.querySelectorAll('header nav a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const sectionId = this.getAttribute('href').slice(1);
-                    showSection(sectionId);
-                });
-            });
-            
-            // Initialize interactive features after registration
-            document.getElementById('userIcon').addEventListener('click', function() {
-                const userDetails = document.getElementById('userDetails');
-                
-                if (userDetails.style.display === 'block') {
-                    gsap.to(userDetails, {
-                        opacity: 0,
-                        y: -20,
-                        duration: 0.5,
-                        onComplete: function() {
-                            userDetails.style.display = 'none';
-                        }
-                    });
-                } else {
-                    userDetails.style.display = 'block';
-                    gsap.from(userDetails, {
-                        opacity: 0,
-                        y: -20,
-                        duration: 0.5
-                    });
-                }
-            });
-            
-            // Add enhanced 3D elements
-            setTimeout(function() {
-                addDataVisualization();
-                add3DPhoneModel();
-                addDataConnectionViz();
-            }, 2000);  // Delay to ensure main page is loaded
         });
     </script>
 </body>
