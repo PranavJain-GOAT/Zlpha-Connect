@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zlpha Connect</title>
+    <!-- Three.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for smoother animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <style>
         /* General Styles */
         body {
@@ -12,10 +16,11 @@
             padding: 0;
             background-color: #f9f9f9;
             color: #333;
+            overflow-x: hidden;
         }
 
         header {
-            background-color: #0073e6;
+            background-color: rgba(0, 115, 230, 0.9);
             padding: 15px;
             color: white;
             font-size: 20px;
@@ -26,13 +31,30 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         header .logo {
             font-size: 24px;
             font-weight: bold;
             animation: fadeInDown 1s ease-in-out;
+            position: relative;
+        }
+
+        header .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffdd57;
+            transition: width 0.5s ease;
+        }
+
+        header .logo:hover::after {
+            width: 100%;
         }
 
         header nav {
@@ -44,11 +66,29 @@
             text-decoration: none;
             color: white;
             font-weight: bold;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        header nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffdd57;
+            transition: width 0.3s ease;
         }
 
         header nav a:hover {
             color: #ffdd57;
+            transform: translateY(-2px);
+        }
+
+        header nav a:hover::after {
+            width: 100%;
         }
 
         .user-icon {
@@ -57,36 +97,87 @@
             height: 30px;
             border-radius: 50%;
             margin-left: 10px;
-            animation: fadeIn 1s ease-in-out;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
         }
 
         .container {
             display: none; /* Hide content until registration */
             padding: 100px 20px 20px; /* Adjusted for fixed header */
             text-align: center;
+            position: relative;
+        }
+
+        /* 3D Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Registration Form Styles */
+        #registration {
+            position: relative;
+            z-index: 10;
+            margin-top: 100px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 115, 230, 0.2);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(5px);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        #registration h2 {
+            color: #0073e6;
+            margin-bottom: 20px;
+            transform: translateZ(20px);
         }
 
         /* Slider Styles */
         .slider {
             width: 100%;
             max-width: 1000px;
-            margin: 0 auto;
+            margin: 0 auto 40px;
             overflow: hidden;
             position: relative;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             animation: slideInUp 1s ease-in-out;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         .slides {
             display: flex;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .slide {
             min-width: 100%;
             box-sizing: border-box;
             position: relative;
+            overflow: hidden;
         }
 
         .slide img {
@@ -94,16 +185,29 @@
             height: 400px;
             object-fit: cover;
             border-radius: 15px;
+            transition: transform 0.5s ease;
+        }
+
+        .slide:hover img {
+            transform: scale(1.05);
         }
 
         .slide-message {
-            margin-top: 10px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
             font-size: 18px;
-            color: #333;
-            background-color: rgba(255, 255, 255, 0.9);
+            color: #fff;
+            background-color: rgba(0, 115, 230, 0.8);
             padding: 15px;
-            border-radius: 10px;
-            animation: fadeInUp 1s ease-in-out;
+            backdrop-filter: blur(5px);
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+
+        .slide:hover .slide-message {
+            transform: translateY(0);
         }
 
         .slider-controls {
@@ -115,6 +219,7 @@
             justify-content: space-between;
             align-items: center;
             transform: translateY(-50%);
+            z-index: 5;
         }
 
         .slider-controls button {
@@ -122,34 +227,37 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: #0073e6;
-            background-color: rgba(255, 255, 255, 0.8);
+            color: #fff;
+            background-color: rgba(0, 115, 230, 0.7);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            margin: 0 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .slider-controls button:hover {
-            color: #005bb5;
-            background-color: rgba(255, 255, 255, 1);
-            transform: scale(1.1);
+            background-color: #0073e6;
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
         .slider-indicator {
             position: absolute;
-            bottom: 10px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 16px;
-            color: #333;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px 10px;
+            color: #fff;
+            background-color: rgba(0, 115, 230, 0.7);
+            padding: 8px 15px;
             border-radius: 20px;
             animation: fadeIn 1s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Form Styles */
@@ -161,65 +269,165 @@
 
         input {
             display: block;
-            margin: 10px auto;
-            padding: 10px;
-            width: 250px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: border-color 0.3s ease;
+            margin: 15px auto;
+            padding: 12px;
+            width: 80%;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         input:focus {
             border-color: #0073e6;
             outline: none;
+            box-shadow: 0 5px 15px rgba(0, 115, 230, 0.2);
+            transform: translateY(-2px);
         }
 
         button {
-            padding: 10px 20px;
+            padding: 12px 30px;
+            margin-top: 10px;
             background-color: #0073e6;
             color: white;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
         }
 
         button:hover {
             background-color: #005bb5;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         /* User Details */
         .user-details {
             display: none;
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
             animation: fadeInUp 1s ease-in-out;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
         }
 
         .logout-btn {
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         /* Section Content */
         .section-content {
             display: none; /* Hide section content by default */
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: left;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             animation: fadeInUp 1s ease-in-out;
+            transform: translateZ(0);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .section-content.active {
             display: block;
         }
 
-        /* Animations */
+        .section-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-content h2 {
+            color: #0073e6;
+            border-bottom: 2px solid #0073e6;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section-content p {
+            line-height: 1.8;
+        }
+
+        .section-content a {
+            color: #0073e6;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .section-content a:hover {
+            color: #005bb5;
+            text-decoration: underline;
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0073e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .loading-text::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: white;
+            animation: loading 2s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
+        }
+
+        /* Enhanced Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -228,7 +436,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -239,7 +447,7 @@
         @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -257,9 +465,93 @@
                 transform: translateY(0);
             }
         }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* 3D Element Styles */
+        .data-orb {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #4facfe, #0073e6);
+            box-shadow: 0 0 20px #0073e6, 0 0 60px #0073e6;
+            animation: float 4s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .data-connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0073e6, transparent);
+            animation: pulse-line 2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse-line {
+            0% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            header {
+                padding: 10px;
+            }
+
+            header .logo {
+                font-size: 20px;
+            }
+
+            header nav {
+                gap: 10px;
+            }
+
+            .slider {
+                margin-bottom: 20px;
+            }
+
+            .slide img {
+                height: 300px;
+            }
+
+            #registration {
+                padding: 20px;
+                margin-top: 80px;
+            }
+
+            input {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-container" id="loadingScreen">
+        <div class="loading-text">Loading Zlpha Connect...</div>
+    </div>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
     <header>
         <div class="logo">Zlpha Connect</div>
         <nav>
@@ -364,13 +656,154 @@
     </div>
 
     <script>
-        // Image Slider Functionality
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                gsap.to(loadingScreen, {
+                    opacity: 0,
+                    duration: 1,
+                    onComplete: function() {
+                        loadingScreen.style.display = 'none';
+                    }
+                });
+                
+                // Animate header elements
+                gsap.from('.logo', {duration: 1, y: -50, opacity: 0, ease: 'back.out(1.7)'});
+                gsap.from('nav a', {duration: 1, y: -50, opacity: 0, stagger: 0.2, ease: 'back.out(1.7)'});
+                
+                // Animate registration form
+                gsap.from('#registration', {duration: 1, y: 50, opacity: 0, delay: 0.5, ease: 'power3.out'});
+                
+                // Initialize 3D background
+                initThreeBackground();
+                
+                // Add floating data orbs
+                createFloatingElements();
+            }, 1500);
+        });
+
+        // Three.js Background Animation
+        function initThreeBackground() {
+            const canvas = document.getElementById('bg-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1000;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 5;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            // Materials
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x0073e6,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            // Mesh
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // Position camera
+            camera.position.z = 3;
+            
+            // Mouse effect
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate particles
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.0005;
+                
+                // Mouse movement effect
+                particlesMesh.rotation.x += mouseY * 0.001;
+                particlesMesh.rotation.y += mouseX * 0.001;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // Create floating data orbs
+        function createFloatingElements() {
+            const container = document.body;
+            const numOrbs = 5;
+            
+            for (let i = 0; i < numOrbs; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'data-orb';
+                
+                // Random positions
+                const randomX = Math.random() * window.innerWidth;
+                const randomY = Math.random() * window.innerHeight;
+                
+                orb.style.left = `${randomX}px`;
+                orb.style.top = `${randomY}px`;
+                
+                // Different animation delays
+                orb.style.animationDelay = `${Math.random() * 2}s`;
+                
+                container.appendChild(orb);
+                
+                // Create connections between orbs
+                if (i > 0) {
+                    const connection = document.createElement('div');
+                    connection.className = 'data-connection';
+                    
+                    const prevOrb = document.getElementsByClassName('data-orb')[i-1];
+                    const prevX = parseInt(prevOrb.style.left);
+                    const prevY = parseInt(prevOrb.style.top);
+                    
+                    const length = Math.sqrt(Math.pow(randomX - prevX, 2) + Math.pow(randomY - prevY, 2));
+                    const angle = Math.atan2(randomY - prevY, randomX - prevX) * 180 / Math.PI;
+                    
+                    connection.style.width = `${length}px`;
+                    connection.style.left = `${prevX}px`;
+                    connection.style.top = `${prevY + 30}px`;
+                    connection.style.transform = `rotate(${angle}deg)`;
+                    
+                    container.appendChild(connection);
+                }
+            }
+        }
+
+        // Image Slider Functionality with enhanced animations
         let slideIndex = 0;
         const slides = document.querySelector('.slides');
         const totalSlides = document.querySelectorAll('.slide').length;
         const sliderIndicator = document.getElementById('sliderIndicator');
 
-        function showNextSlide() {
+        function nextSlide() {
             slideIndex = (slideIndex + 1) % totalSlides;
             updateSlider();
         }
@@ -381,25 +814,43 @@
         }
 
         function updateSlider() {
-            slides.style.transform = `translateX(-${slideIndex * 100}%)`;
+            // Use GSAP for smoother animation
+            gsap.to(slides, {
+                duration: 0.7,
+                x: `-${slideIndex * 100}%`,
+                ease: "power2.out"
+            });
+            
             sliderIndicator.innerText = `${slideIndex + 1}/${totalSlides}`;
         }
 
         // Automatically transition slides every 10 seconds
-        setInterval(showNextSlide, 10000);
+        setInterval(nextSlide, 10000);
 
-        // Show Section Content
+        // Show Section Content with enhanced animations
         function showSection(sectionId) {
             // Hide all sections
             document.querySelectorAll('.section-content').forEach(section => {
                 section.classList.remove('active');
             });
-
+            
             // Show the selected section
-            document.getElementById(sectionId).classList.add('active');
+            const selectedSection = document.getElementById(sectionId);
+            selectedSection.classList.add('active');
+            
+            // Animate the section appearance
+            gsap.from(`#${sectionId}`, {
+                duration: 0.5,
+                y: 20,
+                opacity: 0,
+                ease: "power2.out"
+            });
+            
+            // Scroll to section
+            selectedSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Registration Functionality
+        // Registration Functionality with enhanced animations
         function registerUser() {
             let name = document.getElementById('name').value;
             let email = document.getElementById('email').value;
@@ -410,52 +861,486 @@
             let userDetails = document.getElementById('userDetails');
             let userName = document.getElementById('userName');
             let userEmail = document.getElementById('userEmail');
+            let registration = document.getElementById('registration');
             
             if (password !== 'Parasmal1$') {
                 message.innerText = "Incorrect password!";
                 message.style.color = "red";
+                
+                // Shake animation for error
+                gsap.to('#registration', {
+                    x: 10,
+                    duration: 0.1,
+                    repeat: 5,
+                    yoyo: true
+                });
+                
                 return false;
             }
             
             message.innerText = "Thank you for connecting to us, leverage your experience using Zlpha Connect!";
             message.style.color = "green";
             
-            // Show content after registration
-            content.style.display = 'block';
-            document.getElementById('registration').style.display = 'none';
+            // Fade out registration form
+            gsap.to(registration, {
+                opacity: 0,
+                y: -50,
+                duration: 0.8,
+                onComplete: function() {
+                    registration.style.display = 'none';
+                    
+                    // Show content with animation
+                    content.style.display = 'block';
+                    gsap.from(content, {
+                        opacity: 0,
+                        y: 50,
+                        duration: 0.8
+                    });
+                    
+                    // Display user icon with animation
+                    userIcon.style.display = 'block';
+                    gsap.from(userIcon, {
+                        scale: 0,
+                        duration: 0.5,
+                        ease: "back.out(1.7)"
+                    });
+                    
+                    // Display user details with animation
+                    userDetails.style.display = 'block';
+                    gsap.from(userDetails, {
+                        opacity: 0,
+                        y: 20,
+                        duration: 0.8,
+                        delay: 0.3
+                    });
+                }
+            });
             
-            // Display user icon in header
-            userIcon.style.display = 'block';
-            
-            // Display user details
-            userDetails.style.display = 'block';
+          // Set user details
             userName.innerText = `Name: ${name}`;
             userEmail.innerText = `Email: ${email}`;
             
-            // Simulate email sending (Backend needed for real email sending)
-            console.log(`Email sent to ${email}: Thank you for connecting to us, leverage your experience using Zlpha Connect!`);
-            
-            return false;
+            return false; // Prevent form submission
         }
 
+        // Logout Functionality
         function logoutUser() {
             let content = document.getElementById('content');
             let userIcon = document.getElementById('userIcon');
+            let registration = document.getElementById('registration');
             let userDetails = document.getElementById('userDetails');
-            let message = document.getElementById('message');
             
-            // Hide content and show registration form
-            content.style.display = 'none';
-            document.getElementById('registration').style.display = 'block';
-            
-            // Hide user icon and clear user details
-            userIcon.style.display = 'none';
-            userDetails.style.display = 'none';
-            document.getElementById('name').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('password').value = '';
-            message.innerText = '';
+            // Fade out content
+            gsap.to(content, {
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                onComplete: function() {
+                    content.style.display = 'none';
+                    userDetails.style.display = 'none';
+                    userIcon.style.display = 'none';
+                    
+                    // Show registration form again
+                    registration.style.display = 'block';
+                    gsap.from(registration, {
+                        opacity: 0,
+                        y: -50,
+                        duration: 0.8
+                    });
+                    
+                    // Clear form fields
+                    document.getElementById('name').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                    document.getElementById('message').innerText = '';
+                }
+            });
         }
+
+        // Enhanced 3D Effect on Hover
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section-content');
+            
+            sections.forEach(section => {
+                section.addEventListener('mousemove', function(e) {
+                    const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                    const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                    
+                    gsap.to(this, {
+                        rotationY: xAxis,
+                        rotationX: yAxis,
+                        ease: "power1.out",
+                        transformPerspective: 500,
+                        transformOrigin: "center"
+                    });
+                });
+                
+                section.addEventListener('mouseenter', function() {
+                    gsap.to(this, {
+                        scale: 1.02,
+                        duration: 0.3
+                    });
+                });
+                
+                section.addEventListener('mouseleave', function() {
+                    gsap.to(this, {
+                        rotationY: 0,
+                        rotationX: 0,
+                        scale: 1,
+                        duration: 0.5
+                    });
+                });
+            });
+        });
+
+        // Add interactive data visualization elements
+        function addDataVisualization() {
+            // Only add visualization after login
+            if (document.getElementById('content').style.display !== 'block') return;
+
+            const aboutSection = document.getElementById('about');
+            
+            // Create a canvas for data visualization
+            const vizCanvas = document.createElement('canvas');
+            vizCanvas.id = 'dataVizCanvas';
+            vizCanvas.width = 800;
+            vizCanvas.height = 300;
+            vizCanvas.style.maxWidth = '100%';
+            vizCanvas.style.margin = '20px auto';
+            vizCanvas.style.display = 'block';
+            
+            aboutSection.appendChild(vizCanvas);
+            
+            // Simple data visualization using canvas
+            const ctx = vizCanvas.getContext('2d');
+            
+            // Data point animation
+            function animateDataPoints() {
+                const dataPoints = [
+                    { x: 100, y: 200, radius: 15, color: '#0073e6', speedX: 0.5, speedY: 0.3 },
+                    { x: 300, y: 150, radius: 10, color: '#00a2ff', speedX: -0.3, speedY: 0.4 },
+                    { x: 500, y: 100, radius: 20, color: '#0045a5', speedX: 0.2, speedY: -0.5 },
+                    { x: 650, y: 180, radius: 12, color: '#5ea8ff', speedX: -0.4, speedY: -0.2 }
+                ];
+                
+                function animate() {
+                    ctx.clearRect(0, 0, vizCanvas.width, vizCanvas.height);
+                    
+                    // Draw connecting lines
+                    ctx.beginPath();
+                    ctx.moveTo(dataPoints[0].x, dataPoints[0].y);
+                    for (let i = 1; i < dataPoints.length; i++) {
+                        ctx.lineTo(dataPoints[i].x, dataPoints[i].y);
+                    }
+                    ctx.strokeStyle = 'rgba(0, 115, 230, 0.5)';
+                    ctx.stroke();
+                    
+                    // Draw and animate data points
+                    dataPoints.forEach((point, i) => {
+                        // Update position
+                        point.x += point.speedX;
+                        point.y += point.speedY;
+                        
+                        // Boundary checks
+                        if (point.x <= point.radius || point.x >= vizCanvas.width - point.radius) {
+                            point.speedX *= -1;
+                        }
+                        if (point.y <= point.radius || point.y >= vizCanvas.height - point.radius) {
+                            point.speedY *= -1;
+                        }
+                        
+                        // Draw point
+                        ctx.beginPath();
+                        ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = point.color;
+                        ctx.fill();
+                        
+                        // Add labels
+                        ctx.fillStyle = '#333';
+                        ctx.font = '12px Arial';
+                        ctx.fillText(`Data ${i+1}`, point.x - 20, point.y - point.radius - 5);
+                    });
+                    
+                    requestAnimationFrame(animate);
+                }
+                
+                animate();
+            }
+            
+            // Start animation when about section is shown
+            document.querySelector('a[href="#about"]').addEventListener('click', function() {
+                setTimeout(animateDataPoints, 500);
+            });
+        }
+
+        // Add 3D mobile phone model to Founder section
+        function add3DPhoneModel() {
+            const founderSection = document.getElementById('founder');
+            
+            // Create container for 3D phone
+            const phoneContainer = document.createElement('div');
+            phoneContainer.id = 'phoneModel';
+            phoneContainer.style.width = '200px';
+            phoneContainer.style.height = '400px';
+            phoneContainer.style.margin = '30px auto';
+            phoneContainer.style.position = 'relative';
+            
+            founderSection.appendChild(phoneContainer);
+            
+            // Create 3D phone using Three.js
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 200/400, 0.1, 1000);
+            
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(200, 400);
+            renderer.setClearColor(0x000000, 0);
+            phoneContainer.appendChild(renderer.domElement);
+            
+            // Create phone
+            const phoneGeometry = new THREE.BoxGeometry(1, 2, 0.1);
+            const phoneMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x0073e6,
+                specular: 0x111111,
+                shininess: 100
+            });
+            const phone = new THREE.Mesh(phoneGeometry, phoneMaterial);
+            scene.add(phone);
+            
+            // Create screen
+            const screenGeometry = new THREE.BoxGeometry(0.85, 1.7, 0.01);
+            const screenMaterial = new THREE.MeshBasicMaterial({ color: 0x222222 });
+            const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+            screen.position.z = 0.06;
+            phone.add(screen);
+            
+            // Add app icons (simple colored cubes)
+            const iconSize = 0.15;
+            const iconGeometry = new THREE.BoxGeometry(iconSize, iconSize, 0.01);
+            
+            const iconColors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff];
+            const iconPositions = [
+                [-0.3, 0.6, 0], [0, 0.6, 0], [0.3, 0.6, 0],
+                [-0.3, 0.3, 0], [0, 0.3, 0], [0.3, 0.3, 0]
+            ];
+            
+            iconPositions.forEach((pos, i) => {
+                const iconMaterial = new THREE.MeshBasicMaterial({ color: iconColors[i] });
+                const icon = new THREE.Mesh(iconGeometry, iconMaterial);
+                icon.position.set(pos[0], pos[1], pos[2]);
+                screen.add(icon);
+            });
+            
+            // Add Z logo to bottom of phone
+            const logoGeometry = new THREE.CircleGeometry(0.1, 32);
+            const logoMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const logo = new THREE.Mesh(logoGeometry, logoMaterial);
+            logo.position.set(0, -0.75, 0.06);
+            phone.add(logo);
+            
+            // Add lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 2);
+            scene.add(directionalLight);
+            
+            // Position camera
+            camera.position.z = 3;
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                phone.rotation.y += 0.01;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Make phone interactive
+            phoneContainer.addEventListener('mousemove', function(e) {
+                const rect = phoneContainer.getBoundingClientRect();
+                const mouseX = ((e.clientX - rect.left) / 200) * 2 - 1;
+                const mouseY = -((e.clientY - rect.top) / 400) * 2 + 1;
+                
+                gsap.to(phone.rotation, {
+                    x: mouseY * 0.3,
+                    y: mouseX * 0.5,
+                    duration: 0.5
+                });
+            });
+            
+            phoneContainer.addEventListener('mouseleave', function() {
+                gsap.to(phone.rotation, {
+                    x: 0,
+                    y: 0,
+                    duration: 1
+                });
+            });
+        }
+        
+        // Add 3D data connection visualization to contact section
+        function addDataConnectionViz() {
+            const contactSection = document.getElementById('contact');
+            
+            // Create container for 3D visualization
+            const vizContainer = document.createElement('div');
+            vizContainer.id = 'dataConnectionViz';
+            vizContainer.style.width = '100%';
+            vizContainer.style.height = '300px';
+            vizContainer.style.margin = '30px auto';
+            vizContainer.style.position = 'relative';
+            
+            contactSection.appendChild(vizContainer);
+            
+            // Create 3D data connection visualization using Three.js
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, vizContainer.clientWidth/300, 0.1, 1000);
+            
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(vizContainer.clientWidth, 300);
+            renderer.setClearColor(0x000000, 0);
+            vizContainer.appendChild(renderer.domElement);
+            
+            // Create nodes
+            const nodeGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+            const nodeMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x0073e6,
+                specular: 0x555555,
+                shininess: 30
+            });
+            
+            const nodes = [];
+            const nodeCount = 10;
+            
+            for (let i = 0; i < nodeCount; i++) {
+                const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
+                
+                // Random position within a sphere
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+                const r = 5 + Math.random() * 3;
+                
+                node.position.x = r * Math.sin(phi) * Math.cos(theta);
+                node.position.y = r * Math.sin(phi) * Math.sin(theta);
+                node.position.z = r * Math.cos(phi);
+                
+                scene.add(node);
+                nodes.push(node);
+            }
+            
+            // Create connections between nodes
+            const linesMaterial = new THREE.LineBasicMaterial({ 
+                color: 0x00a2ff,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            const connections = [];
+            
+            for (let i = 0; i < nodeCount; i++) {
+                for (let j = i + 1; j < nodeCount; j++) {
+                    if (Math.random() > 0.7) continue; // Only create some connections
+                    
+                    const geometry = new THREE.BufferGeometry().setFromPoints([
+                        nodes[i].position,
+                        nodes[j].position
+                    ]);
+                    
+                    const line = new THREE.Line(geometry, linesMaterial);
+                    scene.add(line);
+                    connections.push({
+                        line: line,
+                        start: i,
+                        end: j
+                    });
+                }
+            }
+            
+            // Add lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 2);
+            scene.add(directionalLight);
+            
+            // Position camera
+            camera.position.z = 12;
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Slowly rotate the entire node network
+                nodes.forEach(node => {
+                    node.rotation.y += 0.005;
+                    node.rotation.x += 0.002;
+                });
+                
+                // Update connection lines
+                connections.forEach(connection => {
+                    connection.line.geometry.setFromPoints([
+                        nodes[connection.start].position,
+                        nodes[connection.end].position
+                    ]);
+                    connection.line.geometry.attributes.position.needsUpdate = true;
+                });
+                
+                // Slow camera rotation
+                camera.position.x = 12 * Math.sin(Date.now() * 0.0002);
+                camera.position.z = 12 * Math.cos(Date.now() * 0.0002);
+                camera.lookAt(scene.position);
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+        }
+        
+        // Initialize 3D features after registration
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize event listeners for section navigation
+            document.querySelectorAll('header nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('href').slice(1);
+                    showSection(sectionId);
+                });
+            });
+            
+            // Initialize interactive features after registration
+            document.getElementById('userIcon').addEventListener('click', function() {
+                const userDetails = document.getElementById('userDetails');
+                
+                if (userDetails.style.display === 'block') {
+                    gsap.to(userDetails, {
+                        opacity: 0,
+                        y: -20,
+                        duration: 0.5,
+                        onComplete: function() {
+                            userDetails.style.display = 'none';
+                        }
+                    });
+                } else {
+                    userDetails.style.display = 'block';
+                    gsap.from(userDetails, {
+                        opacity: 0,
+                        y: -20,
+                        duration: 0.5
+                    });
+                }
+            });
+            
+            // Add enhanced 3D elements
+            setTimeout(function() {
+                addDataVisualization();
+                add3DPhoneModel();
+                addDataConnectionViz();
+            }, 2000);  // Delay to ensure main page is loaded
+        });
     </script>
 </body>
 </html>
