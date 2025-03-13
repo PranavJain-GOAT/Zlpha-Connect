@@ -19,6 +19,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+        }
+        header .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         header nav {
             display: flex;
@@ -29,14 +35,17 @@
             color: white;
             font-weight: bold;
         }
+        .user-icon {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
         .container {
             display: none; /* Hide content until registration */
             padding: 20px;
             text-align: center; /* Center the content */
-        }
-        .left-section {
-            text-align: left; /* Align About, Founder, Contact to the left */
-            margin-left: 20px;
         }
         img {
             width: 80%;
@@ -66,11 +75,6 @@
             margin-top: 20px;
             text-align: center;
         }
-        .user-details img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
         .logout-btn {
             margin-top: 10px;
         }
@@ -78,12 +82,13 @@
 </head>
 <body>
     <header>
-        <div>Zlpha Connect</div>
         <nav>
             <a href="#about">About</a>
             <a href="#founder">Founder</a>
             <a href="#contact">Contact</a>
         </nav>
+        <div class="logo">Zlpha Connect</div>
+        <img src="user-icon.png" alt="User Icon" class="user-icon" id="userIcon">
     </header>
 
     <!-- Registration Form (Visible by Default) -->
@@ -100,23 +105,6 @@
 
     <!-- Content (Hidden Until Registration) -->
     <div class="container" id="content">
-        <div class="left-section">
-            <section id="about">
-                <h2>About Us</h2>
-                <p>Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
-            </section>
-
-            <section id="founder">
-                <h2>Founder</h2>
-                <p>Pranav Jain, Founder & CEO of Zlpha Connect</p>
-            </section>
-
-            <section id="contact">
-                <h2>Contact</h2>
-                <p>Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a></p>
-            </section>
-        </div>
-
         <section>
             <h2>Share your unused data seamlessly</h2>
             <img src="image3.png" alt="Share your unused data">
@@ -133,7 +121,6 @@
         </section>
 
         <div class="user-details" id="userDetails">
-            <img src="user-icon.png" alt="User Icon">
             <p id="userName"></p>
             <p id="userEmail"></p>
             <button class="logout-btn" onclick="logoutUser()">Logout</button>
@@ -147,6 +134,7 @@
             let password = document.getElementById('password').value;
             let message = document.getElementById('message');
             let content = document.getElementById('content');
+            let userIcon = document.getElementById('userIcon');
             let userDetails = document.getElementById('userDetails');
             let userName = document.getElementById('userName');
             let userEmail = document.getElementById('userEmail');
@@ -164,6 +152,9 @@
             content.style.display = 'block';
             document.getElementById('registration').style.display = 'none';
             
+            // Display user icon in header
+            userIcon.style.display = 'block';
+            
             // Display user details
             userDetails.style.display = 'block';
             userName.innerText = `Name: ${name}`;
@@ -177,6 +168,7 @@
 
         function logoutUser() {
             let content = document.getElementById('content');
+            let userIcon = document.getElementById('userIcon');
             let userDetails = document.getElementById('userDetails');
             let message = document.getElementById('message');
             
@@ -184,7 +176,8 @@
             content.style.display = 'none';
             document.getElementById('registration').style.display = 'block';
             
-            // Clear user details
+            // Hide user icon and clear user details
+            userIcon.style.display = 'none';
             userDetails.style.display = 'none';
             document.getElementById('name').value = '';
             document.getElementById('email').value = '';
