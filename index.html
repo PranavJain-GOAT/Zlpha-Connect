@@ -32,6 +32,11 @@
         .container {
             display: none; /* Hide content until registration */
             padding: 20px;
+            text-align: center; /* Center the content */
+        }
+        .left-section {
+            text-align: left; /* Align About, Founder, Contact to the left */
+            margin-left: 20px;
         }
         img {
             width: 80%;
@@ -95,6 +100,23 @@
 
     <!-- Content (Hidden Until Registration) -->
     <div class="container" id="content">
+        <div class="left-section">
+            <section id="about">
+                <h2>About Us</h2>
+                <p>Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
+            </section>
+
+            <section id="founder">
+                <h2>Founder</h2>
+                <p>Pranav Jain, Founder & CEO of Zlpha Connect</p>
+            </section>
+
+            <section id="contact">
+                <h2>Contact</h2>
+                <p>Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a></p>
+            </section>
+        </div>
+
         <section>
             <h2>Share your unused data seamlessly</h2>
             <img src="image3.png" alt="Share your unused data">
@@ -108,21 +130,6 @@
         <section>
             <h2>Share, Sell or Trade your Data</h2>
             <img src="image2.png" alt="Trade your data">
-        </section>
-
-        <section id="about">
-            <h2>About Us</h2>
-            <p>Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
-        </section>
-
-        <section id="founder">
-            <h2>Founder</h2>
-            <p>Pranav Jain, Founder & CEO of Zlpha Connect</p>
-        </section>
-
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a></p>
         </section>
 
         <div class="user-details" id="userDetails">
