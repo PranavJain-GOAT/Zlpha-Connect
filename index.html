@@ -885,39 +885,40 @@
             message.style.color = "green";
             
             // Fade out registration form
-            gsap.to(registration, {
-                opacity: 0,
-                y: -50,
-                duration: 0.8,
-                onComplete: function() {
-                    registration.style.display = 'none';
-                    
-                    // Show content with animation
-                    content.style.display = 'block';
-                    gsap.from(content, {
-                        opacity: 0,
-                        y: 50,
-                        duration: 0.8
-                    });
-                    
-                    // Display user icon with animation
-                    userIcon.style.display = 'block';
-                    gsap.from(userIcon, {
-                        scale: 0,
-                        duration: 0.5,
-                        ease: "back.out(1.7)"
-                    });
-                    
-                    // Display user details with animation
-                    userDetails.style.display = 'block';
-                    gsap.from(userDetails, {
-                        opacity: 0,
-                        y: 20,
-                        duration: 0.8,
-                        delay: 0.3
-                    });
-                }
-            });
+           // Fade out registration form
+gsap.to(registration, {
+    opacity: 0,
+    y: -50,
+    duration: 0.8,
+    onComplete: function() {
+        registration.style.display = 'none';
+        
+        // Show content with animation
+        content.style.display = 'block';
+        gsap.from(content, {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            onComplete: function() {
+                // Display user icon with animation
+                userIcon.style.display = 'block';
+                gsap.from(userIcon, {
+                    scale: 0,
+                    duration: 0.5,
+                    ease: "back.out(1.7)"
+                });
+                
+                // Display user details with animation
+                userDetails.style.display = 'block';
+                gsap.from(userDetails, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.8
+                });
+            }
+        });
+    }
+});
             
             // Set user details
             userName.innerText = `Name: ${name}`;
