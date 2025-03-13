@@ -834,6 +834,12 @@
         section.classList.remove('active');
     });
 
+  function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.section-content').forEach(section => {
+        section.classList.remove('active');
+    });
+
     // Show the selected section
     const selectedSection = document.getElementById(sectionId);
     selectedSection.classList.add('active');
@@ -843,11 +849,14 @@
         duration: 0.5,
         y: 20,
         opacity: 0,
-        ease: "power2.out"
+        ease: "power2.out",
+        onComplete: function() {
+            // Smoothly scroll to the section after animation completes
+            setTimeout(() => {
+                selectedSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100); // Small delay to ensure smooth transition
+        }
     });
-
-    // Optional: Smoothly scroll to the section without forcing it to stay in view
-    selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
         // Registration Functionality with enhanced animations
