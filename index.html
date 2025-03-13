@@ -10,46 +10,28 @@
             margin: 0;
             padding: 0;
             background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
         }
         header {
             background-color: #0073e6;
             padding: 15px;
             color: white;
             font-size: 20px;
-            width: 100%;
-            text-align: center;
-        }
-        nav {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            width: 100%;
+            justify-content: space-between;
+            align-items: center;
         }
-        nav a {
+        header nav {
+            display: flex;
+            gap: 20px;
+        }
+        header nav a {
             text-decoration: none;
-            color: black;
+            color: white;
             font-weight: bold;
         }
         .container {
-            display: flex;
-            width: 100%;
+            display: none; /* Hide content until registration */
             padding: 20px;
-        }
-        .left-section {
-            width: 50%;
-            padding: 20px;
-        }
-        .right-section {
-            width: 50%;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
         }
         img {
             width: 80%;
@@ -58,7 +40,8 @@
             margin-bottom: 20px;
         }
         form {
-            margin: 20px;
+            margin: 20px auto;
+            text-align: center;
         }
         input {
             display: block;
@@ -76,7 +59,7 @@
         .user-details {
             display: none;
             margin-top: 20px;
-            text-align: right;
+            text-align: center;
         }
         .user-details img {
             width: 50px;
@@ -89,44 +72,64 @@
     </style>
 </head>
 <body>
-    <header>Zlpha Connect</header>
-    <nav>
-        <a href="#about">About</a>
-        <a href="#founder">Founder</a>
-        <a href="#contact">Contact</a>
-    </nav>
-    <div class="container">
-        <div class="left-section">
-            <section id="about">
-                <h2>About Us</h2>
-                <p>Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
-            </section>
-            <section id="founder">
-                <h2>Founder</h2>
-                <p>Pranav Jain, Founder & CEO of Zlpha Connect</p>
-            </section>
-            <section id="contact">
-                <h2>Contact</h2>
-                <p>Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a></p>
-            </section>
-        </div>
-        <div class="right-section">
-            <section>
-                <h2>Register</h2>
-                <form onsubmit="return registerUser()">
-                    <input type="text" id="name" placeholder="Enter your name" required>
-                    <input type="email" id="email" placeholder="Enter your email" required>
-                    <input type="password" id="password" placeholder="Enter your password" required>
-                    <button type="submit">Register</button>
-                </form>
-                <p id="message"></p>
-            </section>
-            <div class="user-details" id="userDetails">
-                <img src="user-icon.png" alt="User Icon">
-                <p id="userName"></p>
-                <p id="userEmail"></p>
-                <button class="logout-btn" onclick="logoutUser()">Logout</button>
-            </div>
+    <header>
+        <div>Zlpha Connect</div>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#founder">Founder</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Registration Form (Visible by Default) -->
+    <section id="registration">
+        <h2>Register</h2>
+        <form onsubmit="return registerUser()">
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <button type="submit">Register</button>
+        </form>
+        <p id="message"></p>
+    </section>
+
+    <!-- Content (Hidden Until Registration) -->
+    <div class="container" id="content">
+        <section>
+            <h2>Share your unused data seamlessly</h2>
+            <img src="image3.png" alt="Share your unused data">
+        </section>
+
+        <section>
+            <h2>Get the best connectivity</h2>
+            <img src="image5.png" alt="Best connectivity">
+        </section>
+
+        <section>
+            <h2>Share, Sell or Trade your Data</h2>
+            <img src="image2.png" alt="Trade your data">
+        </section>
+
+        <section id="about">
+            <h2>About Us</h2>
+            <p>Zlpha Connect aims to revolutionize the way mobile data is shared, sold, and traded worldwide.</p>
+        </section>
+
+        <section id="founder">
+            <h2>Founder</h2>
+            <p>Pranav Jain, Founder & CEO of Zlpha Connect</p>
+        </section>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Connect with us on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a></p>
+        </section>
+
+        <div class="user-details" id="userDetails">
+            <img src="user-icon.png" alt="User Icon">
+            <p id="userName"></p>
+            <p id="userEmail"></p>
+            <button class="logout-btn" onclick="logoutUser()">Logout</button>
         </div>
     </div>
 
@@ -136,6 +139,7 @@
             let email = document.getElementById('email').value;
             let password = document.getElementById('password').value;
             let message = document.getElementById('message');
+            let content = document.getElementById('content');
             let userDetails = document.getElementById('userDetails');
             let userName = document.getElementById('userName');
             let userEmail = document.getElementById('userEmail');
@@ -149,20 +153,29 @@
             message.innerText = "Thank you for connecting to us, leverage your experience using Zlpha Connect!";
             message.style.color = "green";
             
+            // Show content after registration
+            content.style.display = 'block';
+            document.getElementById('registration').style.display = 'none';
+            
             // Display user details
             userDetails.style.display = 'block';
             userName.innerText = `Name: ${name}`;
             userEmail.innerText = `Email: ${email}`;
             
-            // Simulated email sending (Backend needed for real email sending)
+            // Simulate email sending (Backend needed for real email sending)
             console.log(`Email sent to ${email}: Thank you for connecting to us, leverage your experience using Zlpha Connect!`);
             
             return false;
         }
 
         function logoutUser() {
+            let content = document.getElementById('content');
             let userDetails = document.getElementById('userDetails');
             let message = document.getElementById('message');
+            
+            // Hide content and show registration form
+            content.style.display = 'none';
+            document.getElementById('registration').style.display = 'block';
             
             // Clear user details
             userDetails.style.display = 'none';
