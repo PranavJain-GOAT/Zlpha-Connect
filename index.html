@@ -8,66 +8,123 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- GSAP for smoother animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <!-- Three.js TextGeometry for 3D text -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
     <style>
         /* General Styles */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(45deg, #0073e6, #00c6ff, #0073e6);
-            background-size: 300% 300%;
-            animation: gradientBG 10s ease infinite;
+            background-color: #f9f9f9;
             color: #333;
             overflow-x: hidden;
-            cursor: url('custom-cursor.png'), auto;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        header {
+            background-color: rgba(0, 115, 230, 0.9);
+            padding: 15px;
+            color: white;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
         }
 
-        /* Glassmorphism UI */
-        #registration, .section-content, .user-details {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            animation: fadeInDown 1s ease-in-out;
+            position: relative;
         }
 
-        /* Neumorphism Design */
-        button, .section-content {
-            background: #f0f0f0;
-            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
-            border-radius: 15px;
-        }
-        button:hover, .section-content:hover {
-            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
-        }
-
-        /* Dark Mode Toggle */
-        body.dark-mode {
-            background: #121212;
-            color: #ffffff;
-        }
-        .dark-mode .section-content, .dark-mode #registration {
-            background: rgba(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.1);
+        header .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffdd57;
+            transition: width 0.5s ease;
         }
 
-        /* Custom Cursor */
-        a, button {
-            cursor: url('hover-cursor.png'), pointer;
+        header .logo:hover::after {
+            width: 100%;
         }
 
-        /* Hover Effects */
-        button:hover {
-            transform: scale(1.1);
-            background: linear-gradient(45deg, #0073e6, #00c6ff);
+        header nav {
+            display: flex;
+            gap: 20px;
         }
 
-        /* Parallax Effects */
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        header nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffdd57;
+            transition: width 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #ffdd57;
+            transform: translateY(-2px);
+        }
+
+        header nav a:hover::after {
+            width: 100%;
+        }
+
+        .user-icon {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        .container {
+            display: none; /* Hide content until registration */
+            padding: 100px 20px 20px; /* Adjusted for fixed header */
+            text-align: center;
+            position: relative;
+        }
+
+        /* 3D Background Canvas */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -77,77 +134,419 @@
             z-index: -1;
         }
 
-        /* Hamburger Menu */
-        .hamburger {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            .hamburger { display: block; }
-            header nav { display: none; }
-            header nav.active { display: flex; }
+        /* Registration Form Styles */
+        #registration {
+            position: relative;
+            z-index: 10;
+            margin-top: 100px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 115, 230, 0.2);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(5px);
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
-        /* Floating Action Button (FAB) */
-        .fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+        #registration h2 {
+            color: #0073e6;
+            margin-bottom: 20px;
+            transform: translateZ(20px);
+        }
+
+        /* Slider Styles */
+        .slider {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 40px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideInUp 1s ease-in-out;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: transform 0.5s ease;
+        }
+
+        .slide:hover img {
+            transform: scale(1.05);
+        }
+
+        .slide-message {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-size: 18px;
+            color: #fff;
+            background-color: rgba(0, 115, 230, 0.8);
+            padding: 15px;
+            backdrop-filter: blur(5px);
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+
+        .slide:hover .slide-message {
+            transform: translateY(0);
+        }
+
+        .slider-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transform: translateY(-50%);
+            z-index: 5;
+        }
+
+        .slider-controls button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #fff;
+            background-color: rgba(0, 115, 230, 0.7);
+            border-radius: 50%;
             width: 50px;
             height: 50px;
-            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-controls button:hover {
+            background-color: #0073e6;
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: #fff;
+            background-color: rgba(0, 115, 230, 0.7);
+            padding: 8px 15px;
+            border-radius: 20px;
+            animation: fadeIn 1s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form Styles */
+        form {
+            margin: 20px auto;
+            text-align: center;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        input {
+            display: block;
+            margin: 15px auto;
+            padding: 12px;
+            width: 80%;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        input:focus {
+            border-color: #0073e6;
+            outline: none;
+            box-shadow: 0 5px 15px rgba(0, 115, 230, 0.2);
+            transform: translateY(-2px);
+        }
+
+        button {
+            padding: 12px 30px;
+            margin-top: 10px;
             background-color: #0073e6;
             color: white;
             border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Interactive Tooltips */
-        .tooltip {
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        /* User Details */
+        .user-details {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+            animation: fadeInUp 1s ease-in-out;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .user-details.active {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        .logout-btn {
+            margin-top: 15px;
+        }
+
+        /* Section Content */
+        .section-content {
+            display: none; /* Hide section content by default */
+            margin-top: 30px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateZ(0);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-content.active {
+            display: block !important; /* Force display with !important */
+        }
+
+        .section-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-content h2 {
+            color: #0073e6;
+            border-bottom: 2px solid #0073e6;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section-content p {
+            line-height: 1.8;
+        }
+
+        .section-content a {
+            color: #0073e6;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .section-content a:hover {
+            color: #005bb5;
+            text-decoration: underline;
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0073e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
             position: relative;
         }
-        .tooltip-text {
-            visibility: hidden;
-            background-color: #0073e6;
-            color: white;
-            padding: 5px;
-            border-radius: 5px;
+
+        .loading-text::after {
+            content: '';
             position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: white;
+            animation: loading 2s ease-in-out infinite;
         }
 
-        /* Microinteractions */
-        button:active {
-            transform: scale(0.95);
-        }
-        input:focus {
-            border-color: #0073e6;
-            box-shadow: 0 0 10px rgba(0, 115, 230, 0.5);
+        @keyframes loading {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
+        /* Enhanced Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        ::-webkit-scrollbar-thumb {
-            background: #0073e6;
-            border-radius: 10px;
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #005bb5;
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* 3D Element Styles */
+        .data-orb {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #4facfe, #0073e6);
+            box-shadow: 0 0 20px #0073e6, 0 0 60px #0073e6;
+            animation: float 4s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .data-connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0073e6, transparent);
+            animation: pulse-line 2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse-line {
+            0% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            header {
+                padding: 10px;
+            }
+
+            header .logo {
+                font-size: 20px;
+            }
+
+            header nav {
+                gap: 10px;
+            }
+
+            .slider {
+                margin-bottom: 20px;
+            }
+
+            .slide img {
+                height: 300px;
+            }
+
+            #registration {
+                padding: 20px;
+                margin-top: 80px;
+            }
+
+            input {
+                width: 90%;
+            }
         }
     </style>
 </head>
@@ -167,12 +566,10 @@
             <a href="#founder" onclick="showSection('founder')">Founder</a>
             <a href="#contact" onclick="showSection('contact')">Contact</a>
         </nav>
-        <button id="darkModeToggle">🌙</button>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
         <img src="user-icon.png" alt="User Icon" class="user-icon" id="userIcon">
     </header>
 
-    <!-- Registration Form -->
+    <!-- Registration Form (Visible by Default) -->
     <section id="registration">
         <h2>Register</h2>
         <form onsubmit="return registerUser()">
@@ -184,36 +581,51 @@
         <p id="message"></p>
     </section>
 
-    <!-- Content -->
+    <!-- Content (Hidden Until Registration) -->
     <div class="container" id="content">
         <!-- Image Slider -->
         <div class="slider">
             <div class="slides">
+                <!-- Slide 1 -->
                 <div class="slide">
                     <img src="image3.png" alt="Share your unused data">
-                    <div class="slide-message">Share your unused data seamlessly.</div>
+                    <div class="slide-message">
+                        Share your unused data seamlessly.
+                    </div>
+                    <!-- Slider Controls -->
                     <div class="slider-controls">
                         <button onclick="prevSlide()">&#10094;</button>
                         <button onclick="nextSlide()">&#10095;</button>
                     </div>
+                    <!-- Slider Indicator -->
                     <div class="slider-indicator" id="sliderIndicator">1/3</div>
                 </div>
+                <!-- Slide 2 -->
                 <div class="slide">
                     <img src="image5.png" alt="Best connectivity">
-                    <div class="slide-message">Get the best connectivity.</div>
+                    <div class="slide-message">
+                        Get the best connectivity.
+                    </div>
+                    <!-- Slider Controls -->
                     <div class="slider-controls">
                         <button onclick="prevSlide()">&#10094;</button>
                         <button onclick="nextSlide()">&#10095;</button>
                     </div>
+                    <!-- Slider Indicator -->
                     <div class="slider-indicator">2/3</div>
                 </div>
+                <!-- Slide 3 -->
                 <div class="slide">
                     <img src="image2.png" alt="Trade your data">
-                    <div class="slide-message">Share, Sell or Trade your Data.</div>
+                    <div class="slide-message">
+                        Share, Sell or Trade your Data.
+                    </div>
+                    <!-- Slider Controls -->
                     <div class="slider-controls">
                         <button onclick="prevSlide()">&#10094;</button>
                         <button onclick="nextSlide()">&#10095;</button>
                     </div>
+                    <!-- Slider Indicator -->
                     <div class="slider-indicator">3/3</div>
                 </div>
             </div>
@@ -222,22 +634,27 @@
         <!-- About Section -->
         <div id="about" class="section-content">
             <h2>About Us</h2>
-            <p>At Zlpha Connect, we envision a world where unused mobile data never goes to waste...</p>
+            <p>
+                At Zlpha Connect, we envision a world where unused mobile data never goes to waste. Our platform empowers users to share, sell, trade, and optimize their mobile data seamlessly. With cutting-edge technology and a user-first approach, we aim to revolutionize data accessibility globally. Whether you're looking to save costs or maximize your connectivity, Zlpha Connect is here to redefine the way you use mobile data.
+            </p>
         </div>
 
         <!-- Founder Section -->
         <div id="founder" class="section-content">
             <h2>Founder</h2>
-            <p>Pranav Jain, the Founder and CEO of Zlpha Connect, is a visionary entrepreneur...</p>
+            <p>
+                Pranav Jain, the Founder and CEO of Zlpha Connect, is a visionary entrepreneur driven by the mission to reshape the future of mobile data sharing. With a strong background in technology and innovation, Pranav conceptualized Zlpha Connect to bridge the gap between surplus data and those in need. His passion for building impactful solutions fuels the growth of Zlpha Connect into a global platform that enhances digital connectivity for everyone.
+            </p>
         </div>
 
         <!-- Contact Section -->
         <div id="contact" class="section-content">
             <h2>Contact Us</h2>
-            <p>We'd love to hear from you! Connect with us on <a href="https://www.linkedin.com/in/pranavjaineluru" target="_blank">LinkedIn</a>...</p>
+            <p>
+                We'd love to hear from you! Whether you have a query, a collaboration idea, or simply want to stay updated with our journey, feel free to reach out. Connect with us on <a href="https://www.linkedin.com/in/pranavjaineluru?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">LinkedIn</a> or drop us an email at <a href="mailto:support@zlphaconnect.com">support@zlphaconnect.com</a>. Let's build the future of data sharing together!
+            </p>
         </div>
 
-        <!-- User Details -->
         <div class="user-details" id="userDetails">
             <p id="userName"></p>
             <p id="userEmail"></p>
@@ -245,35 +662,198 @@
         </div>
     </div>
 
-    <!-- Floating Action Button (FAB) -->
-    <button class="fab" onclick="scrollToTop()">↑</button>
-
     <script>
-        // JavaScript for all features
-        // Dark Mode Toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                gsap.to(loadingScreen, {
+                    opacity: 0,
+                    duration: 1,
+                    onComplete: function() {
+                        loadingScreen.style.display = 'none';
+                    }
+                });
+                
+                // Animate header elements
+                gsap.from('.logo', {duration: 1, y: -50, opacity: 0, ease: 'back.out(1.7)'});
+                gsap.from('nav a', {duration: 1, y: -50, opacity: 0, stagger: 0.2, ease: 'back.out(1.7)'});
+                
+                // Animate registration form
+                gsap.from('#registration', {duration: 1, y: 50, opacity: 0, delay: 0.5, ease: 'power3.out'});
+                
+                // Initialize 3D background
+                initThreeBackground();
+                
+                // Add floating data orbs
+                createFloatingElements();
+            }, 1500);
         });
 
-        // Hamburger Menu
-        function toggleMenu() {
-            const nav = document.querySelector('header nav');
-            nav.classList.toggle('active');
+        // Three.js Background Animation
+        function initThreeBackground() {
+            const canvas = document.getElementById('bg-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1000;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 5;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            // Materials
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x0073e6,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            // Mesh
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // Position camera
+            camera.position.z = 3;
+            
+            // Mouse effect
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate particles
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.0005;
+                
+                // Mouse movement effect
+                particlesMesh.rotation.x += mouseY * 0.001;
+                particlesMesh.rotation.y += mouseX * 0.001;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // Create floating data orbs
+        function createFloatingElements() {
+            const container = document.body;
+            const numOrbs = 5;
+            
+            for (let i = 0; i < numOrbs; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'data-orb';
+                
+                // Random positions
+                const randomX = Math.random() * window.innerWidth;
+                const randomY = Math.random() * window.innerHeight;
+                
+                orb.style.left = `${randomX}px`;
+                orb.style.top = `${randomY}px`;
+                
+                // Different animation delays
+                orb.style.animationDelay = `${Math.random() * 2}s`;
+                
+                container.appendChild(orb);
+                
+                // Create connections between orbs
+                if (i > 0) {
+                    const connection = document.createElement('div');
+                    connection.className = 'data-connection';
+                    
+                    const prevOrb = document.getElementsByClassName('data-orb')[i-1];
+                    const prevX = parseInt(prevOrb.style.left);
+                    const prevY = parseInt(prevOrb.style.top);
+                    
+                    const length = Math.sqrt(Math.pow(randomX - prevX, 2) + Math.pow(randomY - prevY, 2));
+                    const angle = Math.atan2(randomY - prevY, randomX - prevX) * 180 / Math.PI;
+                    
+                    connection.style.width = `${length}px`;
+                    connection.style.left = `${prevX}px`;
+                    connection.style.top = `${prevY + 30}px`;
+                    connection.style.transform = `rotate(${angle}deg)`;
+                    
+                    container.appendChild(connection);
+                }
+            }
         }
 
-        // Parallax Effect
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            document.getElementById('bg-canvas').style.transform = `translateY(${scrollY * 0.5}px)`;
-        });
+        // Image Slider Functionality with enhanced animations
+        let slideIndex = 0;
+        const slides = document.querySelector('.slides');
+        const totalSlides = document.querySelectorAll('.slide').length;
+        const sliderIndicator = document.getElementById('sliderIndicator');
 
-        // Scroll to Top (FAB)
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function nextSlide() {
+            slideIndex = (slideIndex + 1) % totalSlides;
+            updateSlider();
         }
 
-        // Registration Functionality
+        function prevSlide() {
+            slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            // Use GSAP for smoother animation
+            gsap.to(slides, {
+                duration: 0.7,
+                x: `-${slideIndex * 100}%`,
+                ease: "power2.out"
+            });
+            
+            sliderIndicator.innerText = `${slideIndex + 1}/${totalSlides}`;
+        }
+
+        // Automatically transition slides every 10 seconds
+        setInterval(nextSlide, 10000);
+
+        // Show Section Content with enhanced animations
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the selected section
+            const selectedSection = document.getElementById(sectionId);
+            selectedSection.classList.add('active');
+            
+            // Force it to be visible
+            selectedSection.style.display = 'block';
+            selectedSection.style.opacity = '1';
+            
+            // Scroll to the section
+            selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Registration Functionality with enhanced animations
         function registerUser() {
             let name = document.getElementById('name').value;
             let email = document.getElementById('email').value;
@@ -285,26 +865,52 @@
             let userName = document.getElementById('userName');
             let userEmail = document.getElementById('userEmail');
             let registration = document.getElementById('registration');
-
+            
             if (password !== 'Parasmal1$') {
                 message.innerText = "Incorrect password!";
                 message.style.color = "red";
-                gsap.to('#registration', { x: 10, duration: 0.1, repeat: 5, yoyo: true });
+                
+                // Shake animation for error
+                gsap.to('#registration', {
+                    x: 10,
+                    duration: 0.1,
+                    repeat: 5,
+                    yoyo: true
+                });
+                
                 return false;
             }
-
+            
             message.innerText = "Thank you for connecting to us, leverage your experience using Zlpha Connect!";
             message.style.color = "green";
-            gsap.to(registration, { opacity: 0, y: -50, duration: 0.8, onComplete: () => {
-                registration.style.display = 'none';
-                content.style.display = 'block';
-                userIcon.style.display = 'block';
-                userDetails.style.display = 'block';
-            }});
-
+            
+            // Fade out registration form
+            gsap.to(registration, {
+                opacity: 0,
+                y: -50,
+                duration: 0.8,
+                onComplete: function() {
+                    registration.style.display = 'none';
+                    
+                    // Show content without animation
+                    content.style.display = 'block';
+                    content.style.opacity = '1';
+                    
+                    // Display user icon without animation
+                    userIcon.style.display = 'block';
+                    userIcon.style.opacity = '1';
+                    
+                    // Display user details without animation
+                    userDetails.style.display = 'block';
+                    userDetails.style.opacity = '1';
+                }
+            });
+            
+            // Set user details
             userName.innerText = `Name: ${name}`;
             userEmail.innerText = `Email: ${email}`;
-            return false;
+            
+            return false; // Prevent form submission
         }
 
         // Logout Functionality
@@ -313,19 +919,69 @@
             let userIcon = document.getElementById('userIcon');
             let registration = document.getElementById('registration');
             let userDetails = document.getElementById('userDetails');
-
-            gsap.to(content, { opacity: 0, y: 50, duration: 0.8, onComplete: () => {
-                content.style.display = 'none';
-                userDetails.style.display = 'none';
-                userIcon.style.display = 'none';
-                registration.style.display = 'block';
-                gsap.from(registration, { opacity: 0, y: -50, duration: 0.8 });
-                document.getElementById('name').value = '';
-                document.getElementById('email').value = '';
-                document.getElementById('password').value = '';
-                document.getElementById('message').innerText = '';
-            }});
+            
+            // Fade out content
+            gsap.to(content, {
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                onComplete: function() {
+                    content.style.display = 'none';
+                    userDetails.style.display = 'none';
+                    userIcon.style.display = 'none';
+                    
+                    // Show registration form again
+                    registration.style.display = 'block';
+                    gsap.from(registration, {
+                        opacity: 0,
+                        y: -50,
+                        duration: 0.8
+                    });
+                    
+                    // Clear form fields
+                    document.getElementById('name').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                    document.getElementById('message').innerText = '';
+                }
+            });
         }
+
+        // Enhanced 3D Effect on Hover
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section-content');
+            
+            sections.forEach(section => {
+                section.addEventListener('mousemove', function(e) {
+                    const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                    const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                    
+                    gsap.to(this, {
+                        rotationY: xAxis,
+                        rotationX: yAxis,
+                        ease: "power1.out",
+                        transformPerspective: 500,
+                        transformOrigin: "center"
+                    });
+                });
+                
+                section.addEventListener('mouseenter', function() {
+                    gsap.to(this, {
+                        scale: 1.02,
+                        duration: 0.3
+                    });
+                });
+                
+                section.addEventListener('mouseleave', function() {
+                    gsap.to(this, {
+                        rotationY: 0,
+                        rotationX: 0,
+                        scale: 1,
+                        duration: 0.5
+                    });
+                });
+            });
+        });
     </script>
 </body>
 </html>
