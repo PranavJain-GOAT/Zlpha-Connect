@@ -8,6 +8,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- GSAP for smoother animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <!-- Three.js TextGeometry for 3D text -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
     <style>
         /* General Styles */
         body {
@@ -334,35 +337,36 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5px);
         }
-.user-details.active {
-    display: block !important;
-    opacity: 1 !important;
-}
+
+        .user-details.active {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
         .logout-btn {
             margin-top: 15px;
         }
 
         /* Section Content */
-     .section-content {
-    display: none; /* Hide section content by default */
-    margin-top: 30px;
-    text-align: left;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transform: translateZ(0);
-    backdrop-filter: blur(5px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    /* Removed animation that might be causing issues */
-}
+        .section-content {
+            display: none; /* Hide section content by default */
+            margin-top: 30px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateZ(0);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.section-content.active {
-    display: block !important; /* Force display with !important */
-}
+        .section-content.active {
+            display: block !important; /* Force display with !important */
+        }
 
         .section-content:hover {
             transform: translateY(-5px);
@@ -831,24 +835,23 @@
         setInterval(nextSlide, 10000);
 
         // Show Section Content with enhanced animations
-        // Show Section Content with stable visibility
-function showSection(sectionId) {
-    // Hide all sections
-    document.querySelectorAll('.section-content').forEach(section => {
-        section.classList.remove('active');
-    });
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
 
-    // Show the selected section
-    const selectedSection = document.getElementById(sectionId);
-    selectedSection.classList.add('active');
-    
-    // Force it to be visible
-    selectedSection.style.display = 'block';
-    selectedSection.style.opacity = '1';
-    
-    // Scroll to the section
-    selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
+            // Show the selected section
+            const selectedSection = document.getElementById(sectionId);
+            selectedSection.classList.add('active');
+            
+            // Force it to be visible
+            selectedSection.style.display = 'block';
+            selectedSection.style.opacity = '1';
+            
+            // Scroll to the section
+            selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
         // Registration Functionality with enhanced animations
         function registerUser() {
@@ -882,28 +885,26 @@ function showSection(sectionId) {
             message.style.color = "green";
             
             // Fade out registration form
-           // Fade out registration form
-// Fade out registration form
-gsap.to(registration, {
-    opacity: 0,
-    y: -50,
-    duration: 0.8,
-    onComplete: function() {
-        registration.style.display = 'none';
-        
-        // Show content without animation
-        content.style.display = 'block';
-        content.style.opacity = '1';
-        
-        // Display user icon without animation
-        userIcon.style.display = 'block';
-        userIcon.style.opacity = '1';
-        
-        // Display user details without animation
-        userDetails.style.display = 'block';
-        userDetails.style.opacity = '1';
-    }
-});
+            gsap.to(registration, {
+                opacity: 0,
+                y: -50,
+                duration: 0.8,
+                onComplete: function() {
+                    registration.style.display = 'none';
+                    
+                    // Show content without animation
+                    content.style.display = 'block';
+                    content.style.opacity = '1';
+                    
+                    // Display user icon without animation
+                    userIcon.style.display = 'block';
+                    userIcon.style.opacity = '1';
+                    
+                    // Display user details without animation
+                    userDetails.style.display = 'block';
+                    userDetails.style.opacity = '1';
+                }
+            });
             
             // Set user details
             userName.innerText = `Name: ${name}`;
