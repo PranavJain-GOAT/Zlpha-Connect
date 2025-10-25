@@ -745,19 +745,6 @@
             </div>
         </div>
 
-        <h3 style="text-align: center; font-size: 2rem; font-weight: 300; margin: 80px 0 40px; text-transform: uppercase; letter-spacing: 0.05em;">Certifications</h3>
-        
-        <div class="certifications">
-            <div class="cert-item">
-                <h4>Power BI Certification</h4>
-            </div>
-            <div class="cert-item">
-                <h4>Generative AI</h4>
-            </div>
-            <div class="cert-item">
-                <h4>Data Analytics</h4>
-            </div>
-        </div>
     </section>
 
     <section class="section" id="contact">
@@ -912,24 +899,6 @@
                     x: 0,
                     duration: 1,
                     ease: 'power3.out'
-                });
-            }
-        });
-
-        // Certifications animation
-        gsap.set('.cert-item', { opacity: 0, scale: 0.5, y: 50 });
-
-        ScrollTrigger.create({
-            trigger: '.certifications',
-            start: 'top 80%',
-            onEnter: () => {
-                gsap.to('.cert-item', {
-                    opacity: 1,
-                    scale: 1,
-                    y: 0,
-                    duration: 0.8,
-                    stagger: 0.15,
-                    ease: 'back.out(1.7)'
                 });
             }
         });
