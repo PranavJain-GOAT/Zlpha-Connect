@@ -245,24 +245,41 @@
             font-size: 16px;
         }
 
-        .skills-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 30px;
+        .skill-category {
+            margin-bottom: 30px;
         }
 
-        .skill-item {
+        .skill-category-title {
+            color: var(--color-text);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-tag {
             background: var(--color-surface);
-            padding: 15px 20px;
-            border-radius: 10px;
-            border-left: 3px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            border: 1px solid rgba(0, 217, 255, 0.3);
             transition: all var(--transition-fast);
+            cursor: default;
         }
 
-        .skill-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 20px rgba(0, 217, 255, 0.3);
+        .skill-tag:hover {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 217, 255, 0.3);
         }
 
         .projects-grid {
@@ -459,8 +476,8 @@
                 grid-template-columns: 1fr;
             }
 
-            .skills-list {
-                grid-template-columns: 1fr;
+            .skill-tags {
+                justify-content: center;
             }
 
             .projects-grid {
@@ -530,19 +547,69 @@
             </div>
             <div>
                 <h3 style="color: var(--color-accent); margin-bottom: 20px;">Technical Skills</h3>
-                <div class="skills-list">
-                    <div class="skill-item">Signal Processing</div>
-                    <div class="skill-item">Circuit Design</div>
-                    <div class="skill-item">Fourier Analysis</div>
-                    <div class="skill-item">Transducer Technology</div>
-                    <div class="skill-item">Digital Electronics</div>
-                    <div class="skill-item">Error Detection Systems</div>
-                    <div class="skill-item">Python Programming</div>
-                    <div class="skill-item">MATLAB</div>
-                    <div class="skill-item">Machine Learning</div>
-                    <div class="skill-item">Data Analysis</div>
-                    <div class="skill-item">Circuit Simulation</div>
-                    <div class="skill-item">Mathematical Modeling</div>
+                
+                <div class="skill-category">
+                    <h4 class="skill-category-title">Programming Languages</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">C</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h4 class="skill-category-title">Web Development (MERN Stack)</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">Express.js</span>
+                        <span class="skill-tag">React.js</span>
+                        <span class="skill-tag">Node.js</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h4 class="skill-category-title">Core Areas</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Data Analytics</span>
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">Automation</span>
+                        <span class="skill-tag">IoT</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h4 class="skill-category-title">Tools & Frameworks</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Power BI</span>
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">NumPy</span>
+                        <span class="skill-tag">Matplotlib</span>
+                        <span class="skill-tag">Scikit-learn</span>
+                        <span class="skill-tag">Streamlit</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h4 class="skill-category-title">Cloud & Deployment</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Google Cloud Platform</span>
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Git & GitHub</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h4 class="skill-category-title">Other Skills</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Generative AI</span>
+                        <span class="skill-tag">Data Visualization</span>
+                        <span class="skill-tag">API Integration</span>
+                        <span class="skill-tag">Version Control</span>
+                    </div>
                 </div>
             </div>
         </div>
