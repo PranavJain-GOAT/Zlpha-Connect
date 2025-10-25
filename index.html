@@ -3,128 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zlpha Connect</title>
-    <!-- Three.js library -->
+    <title>Pranav Jain - Electronics Engineer & AI Enthusiast</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- GSAP for smoother animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <!-- Three.js TextGeometry for 3D text -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
     <style>
-        /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
+        :root {
+            --color-primary: #0073e6;
+            --color-primary-hover: #005bb5;
+            --color-secondary: #ffdd57;
+            --color-background: #0a0e27;
+            --color-surface: #1a1f3a;
+            --color-text: #e0e6ed;
+            --color-text-secondary: #a0aec0;
+            --color-accent: #00d9ff;
+            --transition-fast: 0.3s;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        header {
-            background-color: rgba(0, 115, 230, 0.9);
-            padding: 15px;
-            color: white;
-            font-size: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
-            animation: fadeInDown 1s ease-in-out;
-            position: relative;
-        }
-
-        header .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #ffdd57;
-            transition: width 0.5s ease;
-        }
-
-        header .logo:hover::after {
-            width: 100%;
-        }
-
-        header nav {
-            display: flex;
-            gap: 20px;
-        }
-
-        header nav a {
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 5px 0;
-        }
-
-        header nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #ffdd57;
-            transition: width 0.3s ease;
-        }
-
-        header nav a:hover {
-            color: #ffdd57;
-            transform: translateY(-2px);
-        }
-
-        header nav a:hover::after {
-            width: 100%;
-        }
-
-        .user-icon {
-            display: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-left: 10px;
-            animation: pulse 2s infinite;
-            box-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-            }
-        }
-
-        .container {
-            display: none; /* Hide content until registration */
-            padding: 100px 20px 20px; /* Adjusted for fixed header */
-            text-align: center;
-            position: relative;
-        }
-
-        /* 3D Background Canvas */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -134,276 +42,13 @@
             z-index: -1;
         }
 
-        /* Registration Form Styles */
-        #registration {
-            position: relative;
-            z-index: 10;
-            margin-top: 100px;
-            padding: 30px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 115, 230, 0.2);
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            backdrop-filter: blur(5px);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        #registration h2 {
-            color: #0073e6;
-            margin-bottom: 20px;
-            transform: translateZ(20px);
-        }
-
-        /* Slider Styles */
-        .slider {
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto 40px;
-            overflow: hidden;
-            position: relative;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            animation: slideInUp 1s ease-in-out;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .slides {
-            display: flex;
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .slide {
-            min-width: 100%;
-            box-sizing: border-box;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 15px;
-            transition: transform 0.5s ease;
-        }
-
-        .slide:hover img {
-            transform: scale(1.05);
-        }
-
-        .slide-message {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            font-size: 18px;
-            color: #fff;
-            background-color: rgba(0, 115, 230, 0.8);
-            padding: 15px;
-            backdrop-filter: blur(5px);
-            transform: translateY(100%);
-            transition: transform 0.5s ease;
-        }
-
-        .slide:hover .slide-message {
-            transform: translateY(0);
-        }
-
-        .slider-controls {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transform: translateY(-50%);
-            z-index: 5;
-        }
-
-        .slider-controls button {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #fff;
-            background-color: rgba(0, 115, 230, 0.7);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            margin: 0 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .slider-controls button:hover {
-            background-color: #0073e6;
-            transform: scale(1.1) translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .slider-indicator {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 16px;
-            color: #fff;
-            background-color: rgba(0, 115, 230, 0.7);
-            padding: 8px 15px;
-            border-radius: 20px;
-            animation: fadeIn 1s ease-in-out;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Form Styles */
-        form {
-            margin: 20px auto;
-            text-align: center;
-            animation: fadeInUp 1s ease-in-out;
-        }
-
-        input {
-            display: block;
-            margin: 15px auto;
-            padding: 12px;
-            width: 80%;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        input:focus {
-            border-color: #0073e6;
-            outline: none;
-            box-shadow: 0 5px 15px rgba(0, 115, 230, 0.2);
-            transform: translateY(-2px);
-        }
-
-        button {
-            padding: 12px 30px;
-            margin-top: 10px;
-            background-color: #0073e6;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.5s;
-        }
-
-        button:hover {
-            background-color: #005bb5;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        button:hover::before {
-            left: 100%;
-        }
-
-        /* User Details */
-        .user-details {
-            display: none;
-            margin-top: 30px;
-            text-align: center;
-            animation: fadeInUp 1s ease-in-out;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-        }
-
-        .user-details.active {
-            display: block !important;
-            opacity: 1 !important;
-        }
-
-        .logout-btn {
-            margin-top: 15px;
-        }
-
-        /* Section Content */
-        .section-content {
-            display: none; /* Hide section content by default */
-            margin-top: 30px;
-            text-align: left;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 30px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transform: translateZ(0);
-            backdrop-filter: blur(5px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .section-content.active {
-            display: block !important; /* Force display with !important */
-        }
-
-        .section-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .section-content h2 {
-            color: #0073e6;
-            border-bottom: 2px solid #0073e6;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .section-content p {
-            line-height: 1.8;
-        }
-
-        .section-content a {
-            color: #0073e6;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .section-content a:hover {
-            color: #005bb5;
-            text-decoration: underline;
-        }
-
-        /* Loading Animation */
         .loading-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #0073e6;
+            background: linear-gradient(135deg, #0073e6 0%, #00d9ff 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -412,32 +57,371 @@
 
         .loading-text {
             color: white;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            position: relative;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        .loading-text::after {
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(26, 31, 58, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 115, 230, 0.3);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color var(--transition-fast);
+        }
+
+        nav a::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -5px;
             left: 0;
             width: 0;
-            height: 3px;
-            background-color: white;
-            animation: loading 2s ease-in-out infinite;
+            height: 2px;
+            background: var(--color-accent);
+            transition: width var(--transition-fast);
         }
 
-        @keyframes loading {
-            0% { width: 0; }
-            50% { width: 100%; }
-            100% { width: 0; }
+        nav a:hover {
+            color: var(--color-accent);
         }
 
-        /* Enhanced Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 50px 50px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            color: var(--color-text-secondary);
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .hero .description {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.8;
+            animation: fadeInUp 1.4s ease-out;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            animation: fadeInUp 1.6s ease-out;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 115, 230, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 115, 230, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-accent);
+            border: 2px solid var(--color-accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-accent);
+            color: var(--color-background);
+        }
+
+        section {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--color-text-secondary);
+            margin-bottom: 60px;
+            font-size: 18px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: var(--color-accent);
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--color-text-secondary);
+            font-size: 16px;
+        }
+
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .skill-item {
+            background: var(--color-surface);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 3px solid var(--color-accent);
+            transition: all var(--transition-fast);
+        }
+
+        .skill-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .project-card {
+            background: var(--color-surface);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all var(--transition-fast);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.4);
+        }
+
+        .project-card h3 {
+            color: var(--color-accent);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .project-card p {
+            color: var(--color-text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--color-accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .education-timeline {
+            position: relative;
+            padding-left: 50px;
+            margin-top: 50px;
+        }
+
+        .education-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+        }
+
+        .education-item {
+            position: relative;
+            margin-bottom: 40px;
+            background: var(--color-surface);
+            padding: 25px;
+            border-radius: 10px;
+            transition: all var(--transition-fast);
+        }
+
+        .education-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 25px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            border: 3px solid var(--color-background);
+        }
+
+        .education-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .education-item h3 {
+            color: var(--color-accent);
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .education-item .degree {
+            color: var(--color-text);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .education-item .year {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--color-surface);
+            padding: 20px 30px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all var(--transition-fast);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .contact-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 217, 255, 0.4);
+            border-color: var(--color-accent);
+        }
+
+        .contact-icon {
+            font-size: 24px;
+            color: var(--color-accent);
+        }
+
+        footer {
+            background: var(--color-surface);
+            padding: 30px;
+            text-align: center;
+            color: var(--color-text-secondary);
         }
 
         @keyframes fadeInUp {
@@ -451,216 +435,269 @@
             }
         }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }
-
-        /* 3D Element Styles */
-        .data-orb {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #4facfe, #0073e6);
-            box-shadow: 0 0 20px #0073e6, 0 0 60px #0073e6;
-            animation: float 4s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        .data-connection {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #0073e6, transparent);
-            animation: pulse-line 2s infinite;
-            z-index: -1;
-        }
-
-        @keyframes pulse-line {
-            0% {
-                opacity: 0.2;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0.2;
-            }
-        }
-
-        /* Mobile Responsiveness */
         @media (max-width: 768px) {
             header {
-                padding: 10px;
+                padding: 15px 20px;
             }
 
-            header .logo {
-                font-size: 20px;
+            nav {
+                gap: 15px;
             }
 
-            header nav {
-                gap: 10px;
+            .hero h1 {
+                font-size: 36px;
             }
 
-            .slider {
-                margin-bottom: 20px;
+            .hero .subtitle {
+                font-size: 18px;
             }
 
-            .slide img {
-                height: 300px;
+            .about-content {
+                grid-template-columns: 1fr;
             }
 
-            #registration {
-                padding: 20px;
-                margin-top: 80px;
+            .skills-list {
+                grid-template-columns: 1fr;
             }
 
-            input {
-                width: 90%;
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .contact-links {
+                flex-direction: column;
+            }
+
+            section {
+                padding: 60px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
     <div class="loading-container" id="loadingScreen">
-        <div class="loading-text">Loading Zlpha Connect...</div>
+        <div class="loading-text">Pranav Jain</div>
     </div>
 
-    <!-- 3D Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
     <header>
-        <div class="logo">Zlpha Connect</div>
+        <div class="logo">PJ</div>
         <nav>
-            <a href="#about" onclick="showSection('about')">About</a>
-            <a href="#founder" onclick="showSection('founder')">Founder</a>
-            <a href="#contact" onclick="showSection('contact')">Contact</a>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
         </nav>
-        <img src="user-icon.png" alt="User Icon" class="user-icon" id="userIcon">
     </header>
 
-    <!-- Registration Form (Visible by Default) -->
-    <section id="registration">
-        <h2>Register</h2>
-        <form onsubmit="return registerUser()">
-            <input type="text" id="name" placeholder="Enter your name" required>
-            <input type="email" id="email" placeholder="Enter your email" required>
-            <input type="password" id="password" placeholder="Enter your password" required>
-            <button type="submit">Register</button>
-        </form>
-        <p id="message"></p>
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Pranav Jain</h1>
+            <p class="subtitle">Electronics Engineer | Signal Processing Expert | AI/ML Enthusiast</p>
+            <p class="description">
+                Passionate about leveraging advanced signal processing, circuit design, and artificial intelligence 
+                to create innovative solutions. Specialized in Fourier analysis, transducer technology, and 
+                digital systems with a keen interest in AI-driven applications.
+            </p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                <a href="#projects" class="btn btn-secondary">View My Work</a>
+            </div>
+        </div>
     </section>
 
-    <!-- Content (Hidden Until Registration) -->
-    <div class="container" id="content">
-        <!-- Image Slider -->
-        <div class="slider">
-            <div class="slides">
-                <!-- Slide 1 -->
-                <div class="slide">
-                    <img src="image3.png" alt="Share your unused data">
-                    <div class="slide-message">
-                        Share your unused data seamlessly.
-                    </div>
-                    <!-- Slider Controls -->
-                    <div class="slider-controls">
-                        <button onclick="prevSlide()">&#10094;</button>
-                        <button onclick="nextSlide()">&#10095;</button>
-                    </div>
-                    <!-- Slider Indicator -->
-                    <div class="slider-indicator" id="sliderIndicator">1/3</div>
-                </div>
-                <!-- Slide 2 -->
-                <div class="slide">
-                    <img src="image5.png" alt="Best connectivity">
-                    <div class="slide-message">
-                        Get the best connectivity.
-                    </div>
-                    <!-- Slider Controls -->
-                    <div class="slider-controls">
-                        <button onclick="prevSlide()">&#10094;</button>
-                        <button onclick="nextSlide()">&#10095;</button>
-                    </div>
-                    <!-- Slider Indicator -->
-                    <div class="slider-indicator">2/3</div>
-                </div>
-                <!-- Slide 3 -->
-                <div class="slide">
-                    <img src="image2.png" alt="Trade your data">
-                    <div class="slide-message">
-                        Share, Sell or Trade your Data.
-                    </div>
-                    <!-- Slider Controls -->
-                    <div class="slider-controls">
-                        <button onclick="prevSlide()">&#10094;</button>
-                        <button onclick="nextSlide()">&#10095;</button>
-                    </div>
-                    <!-- Slider Indicator -->
-                    <div class="slider-indicator">3/3</div>
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-subtitle">Engineering student with a passion for innovation</p>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Who I Am</h3>
+                <p>
+                    I'm an engineering student specializing in Electrical and Electronics Engineering with 
+                    a deep focus on signal processing, circuit design, and emerging AI technologies. My academic 
+                    journey has equipped me with strong analytical skills and a systematic approach to complex 
+                    technical challenges.
+                </p>
+                <p>
+                    Currently exploring advanced coursework in Fourier analysis, transducer technology, and 
+                    digital signal processing while developing expertise in machine learning applications. 
+                    I'm particularly interested in bridging the gap between traditional electronics and 
+                    modern AI systems.
+                </p>
+            </div>
+            <div>
+                <h3 style="color: var(--color-accent); margin-bottom: 20px;">Technical Skills</h3>
+                <div class="skills-list">
+                    <div class="skill-item">Signal Processing</div>
+                    <div class="skill-item">Circuit Design</div>
+                    <div class="skill-item">Fourier Analysis</div>
+                    <div class="skill-item">Transducer Technology</div>
+                    <div class="skill-item">Digital Electronics</div>
+                    <div class="skill-item">Error Detection Systems</div>
+                    <div class="skill-item">Python Programming</div>
+                    <div class="skill-item">MATLAB</div>
+                    <div class="skill-item">Machine Learning</div>
+                    <div class="skill-item">Data Analysis</div>
+                    <div class="skill-item">Circuit Simulation</div>
+                    <div class="skill-item">Mathematical Modeling</div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- About Section -->
-        <div id="about" class="section-content">
-            <h2>About Us</h2>
-            <p>
-                At Zlpha Connect, we envision a world where unused mobile data never goes to waste. Our platform empowers users to share, sell, trade, and optimize their mobile data seamlessly. With cutting-edge technology and a user-first approach, we aim to revolutionize data accessibility globally. Whether you're looking to save costs or maximize your connectivity, Zlpha Connect is here to redefine the way you use mobile data.
+    <section id="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">Showcase of technical work and research</p>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>Fourier Series Analysis & Gibbs Phenomenon</h3>
+                <p>
+                    Comprehensive analysis of convergence criteria, impulse responses, and Z-transforms. 
+                    Developed Python visualization tools for Gibbs phenomenon and harmonic approximation 
+                    with focus on overshoot behavior in discrete and continuous time signals.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Signal Processing</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">Mathematical Analysis</span>
+                    <span class="tag">Visualization</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>LVDT Technology Research</h3>
+                <p>
+                    In-depth study of Linear Variable Differential Transformer technology including working 
+                    principles, circuit design, and applications in aircraft landing gear systems. Prepared 
+                    comprehensive presentation covering historical development and IoT-enabled variants.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Transducers</span>
+                    <span class="tag">Circuit Design</span>
+                    <span class="tag">IoT</span>
+                    <span class="tag">Displacement Sensing</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>Error Detection Circuit Design</h3>
+                <p>
+                    Designed and implemented error detection circuits using parity bit schemes for 
+                    communication systems. Developed both odd and even parity implementations with 
+                    detailed analysis of receiver-end operation and bit flip detection.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Digital Electronics</span>
+                    <span class="tag">Error Detection</span>
+                    <span class="tag">Circuit Design</span>
+                    <span class="tag">Communications</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>Piezoelectric Transducer Study</h3>
+                <p>
+                    Research on PZT and PVDF materials focusing on active layer functionality and inverse 
+                    piezoelectric effect in sensor applications. Comprehensive analysis of material 
+                    properties and sensing mechanisms for practical implementations.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Transducers</span>
+                    <span class="tag">Materials Science</span>
+                    <span class="tag">Sensor Technology</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>Health Monitoring Circuit System</h3>
+                <p>
+                    Designed low-cost analog electronics solution for pulse and temperature sensing using 
+                    LM358 op-amp configurations. Focused on practical biomedical applications with societal 
+                    health benefits combining transistors and amplifiers.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Biomedical</span>
+                    <span class="tag">Analog Electronics</span>
+                    <span class="tag">Op-Amp Design</span>
+                    <span class="tag">Healthcare</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>Discrete-Time Signal Analysis</h3>
+                <p>
+                    Comprehensive work on periodicity determination, causality analysis, and signal 
+                    decomposition into odd and even components. Solved complex problems involving 
+                    exponential and trigonometric signals with frequency analysis.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">DSP</span>
+                    <span class="tag">MATLAB</span>
+                    <span class="tag">Mathematical Modeling</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2 class="section-title">Education</h2>
+        <p class="section-subtitle">Academic journey and certifications</p>
+        <div class="education-timeline">
+            <div class="education-item">
+                <h3>Engineering Program</h3>
+                <p class="degree">Electrical & Electronics Engineering</p>
+                <p class="year">Current | Advanced Coursework</p>
+                <p style="color: var(--color-text-secondary); margin-top: 10px;">
+                    Specializing in signal processing, circuit design, and digital systems. 
+                    Completed advanced projects in Fourier analysis, transducer technology, 
+                    and error detection circuits.
+                </p>
+            </div>
+
+            <div class="education-item">
+                <h3>AI/ML Certification (In Progress)</h3>
+                <p class="degree">BITS Pilani - Artificial Intelligence & Machine Learning</p>
+                <p class="year">Enrollment Examination | 2025</p>
+                <p style="color: var(--color-text-secondary); margin-top: 10px;">
+                    Pursuing advanced certification in AI/ML to complement electronics expertise 
+                    and enable development of intelligent embedded systems.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-content">
+            <p class="section-subtitle">
+                Let's connect! Whether you're interested in collaboration, have a project in mind, 
+                or just want to discuss technology and innovation.
+            </p>
+            <div class="contact-links">
+                <a href="https://www.linkedin.com/in/pranavjaineluru?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="contact-link">
+                    <span class="contact-icon">in</span>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com" target="_blank" class="contact-link">
+                    <span class="contact-icon">{ }</span>
+                    <span>GitHub</span>
+                </a>
+            </div>
+            <p style="margin-top: 40px; color: var(--color-text-secondary);">
+                Email: <a href="mailto:pranav.jain@email.com" style="color: var(--color-accent); text-decoration: none;">pranav.jain@email.com</a>
             </p>
         </div>
+    </section>
 
-        <!-- Founder Section -->
-        <div id="founder" class="section-content">
-            <h2>Founder</h2>
-            <p>
-                Pranav Jain, the Founder and CEO of Zlpha Connect, is a visionary entrepreneur driven by the mission to reshape the future of mobile data sharing. With a strong background in technology and innovation, Pranav conceptualized Zlpha Connect to bridge the gap between surplus data and those in need. His passion for building impactful solutions fuels the growth of Zlpha Connect into a global platform that enhances digital connectivity for everyone.
-            </p>
-        </div>
-
-        <!-- Contact Section -->
-        <div id="contact" class="section-content">
-            <h2>Contact Us</h2>
-            <p>
-                We'd love to hear from you! Whether you have a query, a collaboration idea, or simply want to stay updated with our journey, feel free to reach out. Connect with us on <a href="https://www.linkedin.com/in/pranavjaineluru?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">LinkedIn</a> or drop us an email at <a href="mailto:support@zlphaconnect.com">support@zlphaconnect.com</a>. Let's build the future of data sharing together!
-            </p>
-        </div>
-
-        <div class="user-details" id="userDetails">
-            <p id="userName"></p>
-            <p id="userEmail"></p>
-            <button class="logout-btn" onclick="logoutUser()">Logout</button>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2025 Pranav Jain. All rights reserved.</p>
+    </footer>
 
     <script>
         // Loading Screen
@@ -675,22 +712,14 @@
                     }
                 });
                 
-                // Animate header elements
                 gsap.from('.logo', {duration: 1, y: -50, opacity: 0, ease: 'back.out(1.7)'});
                 gsap.from('nav a', {duration: 1, y: -50, opacity: 0, stagger: 0.2, ease: 'back.out(1.7)'});
                 
-                // Animate registration form
-                gsap.from('#registration', {duration: 1, y: 50, opacity: 0, delay: 0.5, ease: 'power3.out'});
-                
-                // Initialize 3D background
                 initThreeBackground();
-                
-                // Add floating data orbs
-                createFloatingElements();
             }, 1500);
         });
 
-        // Three.js Background Animation
+        // Three.js Background
         function initThreeBackground() {
             const canvas = document.getElementById('bg-canvas');
             const scene = new THREE.Scene();
@@ -700,34 +729,28 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
             
-            // Create particles
             const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 1000;
-            
+            const particlesCount = 1500;
             const posArray = new Float32Array(particlesCount * 3);
             
             for(let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 5;
+                posArray[i] = (Math.random() - 0.5) * 8;
             }
             
             particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
             
-            // Materials
             const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.02,
-                color: 0x0073e6,
+                size: 0.015,
+                color: 0x00d9ff,
                 transparent: true,
                 opacity: 0.8
             });
             
-            // Mesh
             const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
             scene.add(particlesMesh);
             
-            // Position camera
             camera.position.z = 3;
             
-            // Mouse effect
             let mouseX = 0;
             let mouseY = 0;
             
@@ -736,251 +759,61 @@
                 mouseY = event.clientY / window.innerHeight - 0.5;
             });
             
-            // Animation loop
             function animate() {
                 requestAnimationFrame(animate);
                 
-                // Rotate particles
-                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.x += 0.0003;
                 particlesMesh.rotation.y += 0.0005;
                 
-                // Mouse movement effect
-                particlesMesh.rotation.x += mouseY * 0.001;
-                particlesMesh.rotation.y += mouseX * 0.001;
+                particlesMesh.rotation.x += mouseY * 0.0008;
+                particlesMesh.rotation.y += mouseX * 0.0008;
                 
                 renderer.render(scene, camera);
             }
             
             animate();
             
-            // Handle resize
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
         }
-        
-        // Create floating data orbs
-        function createFloatingElements() {
-            const container = document.body;
-            const numOrbs = 5;
-            
-            for (let i = 0; i < numOrbs; i++) {
-                const orb = document.createElement('div');
-                orb.className = 'data-orb';
-                
-                // Random positions
-                const randomX = Math.random() * window.innerWidth;
-                const randomY = Math.random() * window.innerHeight;
-                
-                orb.style.left = `${randomX}px`;
-                orb.style.top = `${randomY}px`;
-                
-                // Different animation delays
-                orb.style.animationDelay = `${Math.random() * 2}s`;
-                
-                container.appendChild(orb);
-                
-                // Create connections between orbs
-                if (i > 0) {
-                    const connection = document.createElement('div');
-                    connection.className = 'data-connection';
-                    
-                    const prevOrb = document.getElementsByClassName('data-orb')[i-1];
-                    const prevX = parseInt(prevOrb.style.left);
-                    const prevY = parseInt(prevOrb.style.top);
-                    
-                    const length = Math.sqrt(Math.pow(randomX - prevX, 2) + Math.pow(randomY - prevY, 2));
-                    const angle = Math.atan2(randomY - prevY, randomX - prevX) * 180 / Math.PI;
-                    
-                    connection.style.width = `${length}px`;
-                    connection.style.left = `${prevX}px`;
-                    connection.style.top = `${prevY + 30}px`;
-                    connection.style.transform = `rotate(${angle}deg)`;
-                    
-                    container.appendChild(connection);
-                }
-            }
-        }
 
-        // Image Slider Functionality with enhanced animations
-        let slideIndex = 0;
-        const slides = document.querySelector('.slides');
-        const totalSlides = document.querySelectorAll('.slide').length;
-        const sliderIndicator = document.getElementById('sliderIndicator');
-
-        function nextSlide() {
-            slideIndex = (slideIndex + 1) % totalSlides;
-            updateSlider();
-        }
-
-        function prevSlide() {
-            slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
-            updateSlider();
-        }
-
-        function updateSlider() {
-            // Use GSAP for smoother animation
-            gsap.to(slides, {
-                duration: 0.7,
-                x: `-${slideIndex * 100}%`,
-                ease: "power2.out"
-            });
-            
-            sliderIndicator.innerText = `${slideIndex + 1}/${totalSlides}`;
-        }
-
-        // Automatically transition slides every 10 seconds
-        setInterval(nextSlide, 10000);
-
-        // Show Section Content with enhanced animations
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section-content').forEach(section => {
-                section.classList.remove('active');
-            });
-
-            // Show the selected section
-            const selectedSection = document.getElementById(sectionId);
-            selectedSection.classList.add('active');
-            
-            // Force it to be visible
-            selectedSection.style.display = 'block';
-            selectedSection.style.opacity = '1';
-            
-            // Scroll to the section
-            selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // Registration Functionality with enhanced animations
-        function registerUser() {
-            let name = document.getElementById('name').value;
-            let email = document.getElementById('email').value;
-            let password = document.getElementById('password').value;
-            let message = document.getElementById('message');
-            let content = document.getElementById('content');
-            let userIcon = document.getElementById('userIcon');
-            let userDetails = document.getElementById('userDetails');
-            let userName = document.getElementById('userName');
-            let userEmail = document.getElementById('userEmail');
-            let registration = document.getElementById('registration');
-            
-            if (password !== 'Parasmal1$') {
-                message.innerText = "Incorrect password!";
-                message.style.color = "red";
-                
-                // Shake animation for error
-                gsap.to('#registration', {
-                    x: 10,
-                    duration: 0.1,
-                    repeat: 5,
-                    yoyo: true
-                });
-                
-                return false;
-            }
-            
-            message.innerText = "Thank you for connecting to us, leverage your experience using Zlpha Connect!";
-            message.style.color = "green";
-            
-            // Fade out registration form
-            gsap.to(registration, {
-                opacity: 0,
-                y: -50,
-                duration: 0.8,
-                onComplete: function() {
-                    registration.style.display = 'none';
-                    
-                    // Show content without animation
-                    content.style.display = 'block';
-                    content.style.opacity = '1';
-                    
-                    // Display user icon without animation
-                    userIcon.style.display = 'block';
-                    userIcon.style.opacity = '1';
-                    
-                    // Display user details without animation
-                    userDetails.style.display = 'block';
-                    userDetails.style.opacity = '1';
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
-            
-            // Set user details
-            userName.innerText = `Name: ${name}`;
-            userEmail.innerText = `Email: ${email}`;
-            
-            return false; // Prevent form submission
-        }
+        });
 
-        // Logout Functionality
-        function logoutUser() {
-            let content = document.getElementById('content');
-            let userIcon = document.getElementById('userIcon');
-            let registration = document.getElementById('registration');
-            let userDetails = document.getElementById('userDetails');
-            
-            // Fade out content
-            gsap.to(content, {
-                opacity: 0,
-                y: 50,
-                duration: 0.8,
-                onComplete: function() {
-                    content.style.display = 'none';
-                    userDetails.style.display = 'none';
-                    userIcon.style.display = 'none';
-                    
-                    // Show registration form again
-                    registration.style.display = 'block';
-                    gsap.from(registration, {
-                        opacity: 0,
-                        y: -50,
-                        duration: 0.8
-                    });
-                    
-                    // Clear form fields
-                    document.getElementById('name').value = '';
-                    document.getElementById('email').value = '';
-                    document.getElementById('password').value = '';
-                    document.getElementById('message').innerText = '';
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
-        }
+        }, observerOptions);
 
-        // Enhanced 3D Effect on Hover
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('.section-content');
-            
-            sections.forEach(section => {
-                section.addEventListener('mousemove', function(e) {
-                    const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                    const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                    
-                    gsap.to(this, {
-                        rotationY: xAxis,
-                        rotationX: yAxis,
-                        ease: "power1.out",
-                        transformPerspective: 500,
-                        transformOrigin: "center"
-                    });
-                });
-                
-                section.addEventListener('mouseenter', function() {
-                    gsap.to(this, {
-                        scale: 1.02,
-                        duration: 0.3
-                    });
-                });
-                
-                section.addEventListener('mouseleave', function() {
-                    gsap.to(this, {
-                        rotationY: 0,
-                        rotationX: 0,
-                        scale: 1,
-                        duration: 0.5
-                    });
-                });
-            });
+        document.querySelectorAll('.project-card, .education-item, .skill-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
         });
     </script>
 </body>
