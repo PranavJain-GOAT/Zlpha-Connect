@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -223,8 +224,8 @@
 
         .about-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
             align-items: start;
         }
 
@@ -564,6 +565,136 @@
             }
         }
 
+        .skill-bars {
+            margin-top: 30px;
+        }
+
+        .skill-bar {
+            margin-bottom: 25px;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .skill-progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #0099cc);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 2s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto 50px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .contact-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border: none;
+            border-radius: 5px;
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .contact-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .contact-submit:hover::before {
+            left: 100%;
+        }
+
         @media (max-width: 768px) {
             .about-grid {
                 grid-template-columns: 1fr;
@@ -631,7 +762,7 @@
         
         <div class="about-grid">
             <div class="about-content">
-                <h3>Who I Am</h3>
+                <h3>Who Am I</h3>
                 <p>I'm Pranav Jain, a curious and ambitious sophomore at NIT Trichy, pursuing B.Tech in Instrumentation & Control Engineering. My interests lie at the intersection of Machine Learning, Cloud, and Automation, where technology meets real-world application.</p>
                 <p style="margin-top: 20px;">I'm certified in Power BI, Generative AI, and Data Analytics, and I love using these skills to explore how data, algorithms, and innovation can create smarter, more connected systems. Beyond academics, I'm driven by curiosity and the constant urge to turn ideas into impactful solutions.</p>
             </div>
@@ -704,6 +835,66 @@
                     </div>
                 </div>
             </div>
+
+            <div class="about-content">
+                <h3>Skills Proficiency</h3>
+                <div class="skill-bars">
+                    <div class="skill-bar">
+                        <div class="skill-info">
+                            <span>Python</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" data-width="90"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-info">
+                            <span>Machine Learning</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" data-width="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-info">
+                            <span>JavaScript</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" data-width="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-info">
+                            <span>React.js</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" data-width="75"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-info">
+                            <span>Cloud Platforms</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" data-width="70"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-info">
+                            <span>Data Analytics</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" data-width="85"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -752,6 +943,22 @@
         
         <div class="contact-content">
             <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Whether you want to collaborate on an AI project or just have a chat about technology, feel free to reach out!</p>
+            
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <input type="text" name="from_name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="from_email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="subject" placeholder="Subject" required>
+                </div>
+                <div class="form-group">
+                    <textarea rows="6" name="message" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" class="contact-submit">Send Message</button>
+            </form>
             
             <p style="font-size: 1.2rem; color: rgba(255, 255, 255, 0.9); margin: 30px 0;">
                 <strong>Email:</strong> <a href="mailto:pranavjaineluru@gmail.com" style="color: #00d4ff; text-decoration: none;">pranavjaineluru@gmail.com</a>
@@ -866,7 +1073,62 @@
                     stagger: 0.3,
                     ease: 'power3.out'
                 });
+
+                // Animate skill bars
+                setTimeout(() => {
+                    document.querySelectorAll('.skill-fill').forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        bar.style.width = width + '%';
+                    });
+                }, 800);
             }
+        });
+
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+        })();
+
+        // Contact form functionality with EmailJS
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('.contact-submit');
+            const originalText = submitBtn.textContent;
+            
+            // Show sending state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.style.background = 'rgba(0, 212, 255, 0.5)';
+            submitBtn.disabled = true;
+            
+            // Send email using EmailJS
+            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    submitBtn.textContent = 'Message Sent!';
+                    submitBtn.style.background = 'linear-gradient(45deg, #00ff00, #00cc00)';
+                    
+                    // Reset form
+                    document.getElementById('contactForm').reset();
+                    
+                    // Reset button after 3 seconds
+                    setTimeout(() => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.style.background = 'linear-gradient(45deg, #00d4ff, #0099cc)';
+                        submitBtn.disabled = false;
+                    }, 3000);
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    submitBtn.textContent = 'Failed to Send';
+                    submitBtn.style.background = 'linear-gradient(45deg, #ff0000, #cc0000)';
+                    
+                    // Reset button after 3 seconds
+                    setTimeout(() => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.style.background = 'linear-gradient(45deg, #00d4ff, #0099cc)';
+                        submitBtn.disabled = false;
+                    }, 3000);
+                });
         });
 
         // Project cards animation
