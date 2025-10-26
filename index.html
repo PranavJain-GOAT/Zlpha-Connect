@@ -733,82 +733,136 @@
     </style>
 </head>
 <body>
-<!-- Splash Loader: MyRésumé with Loading Bar -->
+<!-- Particles Text Loader with Progress Bar -->
 <div id="preloader">
-  <div class="splash-content">
-    <h1>MyRésumé</h1>
-    <div class="loader-bar-bg">
-      <div class="loader-bar"></div>
-    </div>
+  <canvas id="particle-text"></canvas>
+  <div class="loader-bar-bg">
+    <div class="loader-bar"></div>
   </div>
 </div>
 
 <style>
-#preloader {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(135deg, #030511 60%, #12355b 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 4000;
-  top: 0;
-  left: 0;
-  transition: opacity 0.6s;
-}
-.splash-content {
-  text-align: center;
-  color: #fff;
-}
-.splash-content h1 {
-  font-family: inherit;
-  font-size: 3.5rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  background: linear-gradient(90deg, #00e3ff 30%, #8fdbe6 80%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 22px #00d4ff88);
-  margin-bottom: 32px;
-  text-transform: capitalize;
-}
-.loader-bar-bg {
-  width: 270px;
-  height: 16px;
-  background: #192739;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px #0df0ff3a;
-  margin: 0 auto;
-  border: 2px solid #00d4ff38;
-}
-.loader-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(270deg,#00e3ff 35%, #00b9df 100%);
-  border-radius: 10px;
-  box-shadow: 0 1px 8px #0df0ff7d;
-  animation: loadbar 1.6s cubic-bezier(.25,1,.8,1) forwards;
-}
-@keyframes loadbar {
-  0% { width: 0%; }
-  35% { width: 40%; }
-  65% { width: 67%; }
-  80% { width: 84%;}
-  100% { width: 100%; }
-}
+  #preloader {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #030511 60%, #12355b 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 4000;
+    top: 0;
+    left: 0;
+  }
+  #particle-text {
+    display: block;
+    max-width: 600px;
+    width: 90vw;
+    height: 150px;
+    margin-bottom: 40px;
+  }
+
+  .loader-bar-bg {
+    width: 270px;
+    height: 16px;
+    background: #192739;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px #0df0ff3a;
+    border: 2px solid #00d4ff38;
+  }
+  .loader-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(270deg,#00e3ff 35%, #00b9df 100%);
+    border-radius: 10px;
+    box-shadow: 0 1px 8px #0df0ff7d;
+    animation: loadbar 1.6s cubic-bezier(.25,1,.8,1) forwards;
+  }
+  @keyframes loadbar {
+    0% { width: 0%; }
+    35% { width: 40%; }
+    65% { width: 67%; }
+    80% { width: 84%;}
+    100% { width: 100%; }
+  }
 </style>
+
 <script>
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        document.getElementById('preloader').style.opacity = 0;
-        setTimeout(function() {
-          document.getElementById('preloader').style.display = 'none';
-        }, 700);
-    }, 1800);
-});
+  // Particle Text Loader Canvas Settings
+  const canvas = document.getElementById('particle-text');
+  const ctx = canvas.getContext('2d');
+
+  let width, height;
+  let particlesArray = [];
+  const particleRadius = 2;
+  const gap = 6;
+  const text = 'MyRésumé';
+  ctx.font = 'bold 120px Arial';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+
+  function initCanvas() {
+    width = canvas.width = canvas.clientWidth * devicePixelRatio;
+    height = canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    particlesArray = [];
+    createParticles();
+  }
+
+  function createParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const textX = canvas.clientWidth / 2;
+    const textY = canvas.clientHeight / 2;
+    // Draw text offscreen to get pixel data
+    ctx.font = 'bold 120px Arial';
+    ctx.fillStyle = 'white';
+    ctx.fillText(text, textX, textY);
+    const imageData = ctx.getImageData(0, 0, canvas.clientWidth, canvas.clientHeight);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let y = 0; y < imageData.height; y += gap) {
+      for (let x = 0; x < imageData.width; x += gap) {
+        const index = (y * imageData.width + x) * 4;
+        if (imageData.data[index + 3] > 150) {
+          particlesArray.push({ x, y, baseX: x, baseY: y, vy: -Math.random() * 2 });
+        }
+      }
+    }
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00e3ff';
+    particlesArray.forEach(p => {
+      // Animate particles floating slightly up/down
+      p.y += p.vy;
+      if (p.y < p.baseY - 6 || p.y > p.baseY + 6) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, particleRadius, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function animate() {
+    drawParticles();
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', initCanvas);
+  window.addEventListener('load', () => {
+    initCanvas();
+    animate();
+
+    setTimeout(() => {
+      document.getElementById('preloader').style.opacity = 0;
+      setTimeout(() => {
+        document.getElementById('preloader').style.display = 'none';
+      }, 600);
+    }, 2100);
+  });
 </script>
 
 
