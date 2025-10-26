@@ -734,9 +734,9 @@
 </head>
 <body>
 <!-- Particles Text Loader with Progress Bar -->
-<div id="preloader">
-  <canvas id="particle-text"></canvas>
-  <div class="loader-bar-bg">
+<div id="preloader" aria-label="Loading screen" role="alert" aria-live="assertive">
+  <canvas id="particle-text" aria-hidden="true"></canvas>
+  <div class="loader-bar-bg" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
     <div class="loader-bar"></div>
   </div>
 </div>
@@ -864,6 +864,7 @@
     }, 2100);
   });
 </script>
+
 
 
 
