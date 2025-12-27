@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +14,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'D-DIN', -apple-system, BlinkMacSystemFont, sans-serif;
             background: #000;
@@ -21,7 +22,7 @@
             overflow-x: hidden;
             line-height: 1.4;
         }
-
+        
         header {
             position: fixed;
             width: 100%;
@@ -36,12 +37,12 @@
             border-bottom: 1px solid rgba(255, 0, 60, 0.3);
             transition: all 0.3s ease;
         }
-
+        
         nav {
             display: flex;
             gap: 40px;
         }
-
+        
         nav a {
             color: #fff;
             text-decoration: none;
@@ -53,7 +54,7 @@
             padding: 8px 0;
             position: relative;
         }
-
+        
         nav a::after {
             content: '';
             position: absolute;
@@ -64,11 +65,11 @@
             background: #ff003c;
             transition: width 0.3s ease;
         }
-
+        
         nav a:hover::after {
             width: 100%;
         }
-
+        
         .hero {
             min-height: 100vh;
             position: relative;
@@ -79,13 +80,13 @@
             background: radial-gradient(ellipse at center, #1a0a0f 0%, #000 100%);
             padding: 100px 40px 60px;
         }
-
+        
         .hero-content {
             text-align: center;
             z-index: 10;
             max-width: 1000px;
         }
-
+        
         .hero h1 {
             font-size: clamp(3rem, 8vw, 6rem);
             font-weight: 100;
@@ -98,7 +99,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
+        
         .hero .subtitle {
             font-size: 1rem;
             opacity: 0.9;
@@ -108,7 +109,7 @@
             text-transform: uppercase;
             color: #ff6b9d;
         }
-
+        
         .hero .description {
             font-size: 1.1rem;
             opacity: 0.7;
@@ -119,14 +120,14 @@
             margin-left: auto;
             margin-right: auto;
         }
-
+        
         .cta-buttons {
             display: flex;
             gap: 30px;
             justify-content: center;
             margin-top: 30px;
         }
-
+        
         .cta-buttons a {
             color: #fff;
             text-decoration: none;
@@ -139,7 +140,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .cta-buttons a::before {
             content: '';
             position: absolute;
@@ -151,16 +152,16 @@
             transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             z-index: -1;
         }
-
+        
         .cta-buttons a:hover {
             color: #fff;
             border-color: #ff003c;
         }
-
+        
         .cta-buttons a:hover::before {
             left: 0;
         }
-
+        
         .starfield {
             position: absolute;
             width: 100%;
@@ -168,7 +169,7 @@
             top: 0;
             left: 0;
         }
-
+        
         .star {
             position: absolute;
             background: #ff003c;
@@ -176,19 +177,24 @@
             opacity: 0.8;
             animation: twinkle 3s infinite;
         }
-
+        
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
         }
-
+        
         .section {
             padding: 120px 60px;
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
         }
-
+        
         .section-title {
             font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 100;
@@ -202,14 +208,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
+        
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 40px;
             margin-top: 80px;
         }
-
+        
         .feature-card {
             background: linear-gradient(135deg, rgba(255, 0, 60, 0.1), rgba(255, 0, 60, 0.02));
             border: 1px solid rgba(255, 0, 60, 0.3);
@@ -219,7 +225,7 @@
             overflow: hidden;
             backdrop-filter: blur(10px);
         }
-
+        
         .feature-card::before {
             content: '';
             position: absolute;
@@ -231,23 +237,23 @@
             transform: translateX(-100%);
             transition: transform 0.6s ease;
         }
-
+        
         .feature-card:hover {
             transform: translateY(-10px);
             border-color: #ff003c;
             background: linear-gradient(135deg, rgba(255, 0, 60, 0.15), rgba(255, 0, 60, 0.05));
         }
-
+        
         .feature-card:hover::before {
             transform: translateX(100%);
         }
-
+        
         .feature-icon {
             font-size: 3rem;
             margin-bottom: 20px;
             color: #ff003c;
         }
-
+        
         .feature-card h3 {
             font-size: 1.6rem;
             font-weight: 300;
@@ -255,13 +261,13 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-
+        
         .feature-card p {
             color: rgba(255, 255, 255, 0.7);
             line-height: 1.6;
             font-weight: 300;
         }
-
+        
         .analyzer-section {
             background: linear-gradient(135deg, rgba(255, 0, 60, 0.05), transparent);
             border: 1px solid rgba(255, 0, 60, 0.2);
@@ -270,7 +276,7 @@
             margin: 80px auto;
             max-width: 900px;
         }
-
+        
         .analyzer-input {
             width: 100%;
             padding: 20px;
@@ -283,14 +289,14 @@
             margin-bottom: 20px;
             transition: all 0.3s ease;
         }
-
+        
         .analyzer-input:focus {
             outline: none;
             border-color: #ff003c;
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
         }
-
+        
         .analyze-btn {
             width: 100%;
             padding: 18px;
@@ -307,7 +313,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .analyze-btn::before {
             content: '';
             position: absolute;
@@ -318,16 +324,16 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s ease;
         }
-
+        
         .analyze-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(255, 0, 60, 0.4);
         }
-
+        
         .analyze-btn:hover::before {
             left: 100%;
         }
-
+        
         .results-area {
             margin-top: 30px;
             padding: 30px;
@@ -336,7 +342,7 @@
             border-radius: 5px;
             display: none;
         }
-
+        
         .threat-level {
             display: inline-block;
             padding: 8px 16px;
@@ -346,18 +352,32 @@
             font-size: 0.9rem;
             margin-bottom: 20px;
         }
-
-        .threat-low { background: rgba(0, 255, 0, 0.2); border: 1px solid #00ff00; color: #00ff00; }
-        .threat-medium { background: rgba(255, 165, 0, 0.2); border: 1px solid #ffa500; color: #ffa500; }
-        .threat-high { background: rgba(255, 0, 0, 0.2); border: 1px solid #ff0000; color: #ff0000; }
-
+        
+        .threat-low {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+        
+        .threat-medium {
+            background: rgba(255, 165, 0, 0.2);
+            border: 1px solid #ffa500;
+            color: #ffa500;
+        }
+        
+        .threat-high {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
             margin-top: 80px;
         }
-
+        
         .stat-card {
             text-align: center;
             padding: 40px 30px;
@@ -365,46 +385,46 @@
             border: 1px solid rgba(255, 0, 60, 0.3);
             transition: all 0.4s ease;
         }
-
+        
         .stat-card:hover {
             transform: translateY(-5px);
             border-color: #ff003c;
         }
-
+        
         .stat-number {
             font-size: 3rem;
             font-weight: 100;
             color: #ff003c;
             margin-bottom: 10px;
         }
-
+        
         .stat-label {
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             opacity: 0.8;
         }
-
+        
         .contact-section {
             text-align: center;
             max-width: 800px;
             margin: 0 auto;
         }
-
+        
         .contact-section p {
             color: rgba(255, 255, 255, 0.7);
             line-height: 1.8;
             font-size: 1.1rem;
             margin-bottom: 40px;
         }
-
+        
         .contact-links {
             display: flex;
             gap: 30px;
             justify-content: center;
             flex-wrap: wrap;
         }
-
+        
         .contact-links a {
             padding: 18px 40px;
             background: transparent;
@@ -419,7 +439,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .contact-links a::before {
             content: '';
             position: absolute;
@@ -431,48 +451,44 @@
             transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             z-index: -1;
         }
-
+        
         .contact-links a:hover {
             color: #fff;
             border-color: #ff003c;
         }
-
+        
         .contact-links a:hover::before {
             left: 0;
         }
-
+        
         @media (max-width: 768px) {
             .features-grid {
                 grid-template-columns: 1fr;
             }
-            
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .hero, .section {
+            .hero,
+            .section {
                 padding: 80px 30px;
             }
-
             nav {
                 gap: 20px;
             }
-
             header {
                 padding: 15px 30px;
             }
-
             .cta-buttons {
                 flex-direction: column;
                 gap: 15px;
             }
-
             .contact-links {
                 flex-direction: column;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Splash Loader -->
     <div id="preloader">
@@ -485,71 +501,86 @@
     </div>
 
     <style>
-    #preloader {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        background: linear-gradient(135deg, #0a0305 60%, #1a0510 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        z-index: 4000;
-        top: 0;
-        left: 0;
-        transition: opacity 0.6s;
-    }
-    .splash-content {
-        text-align: center;
-        color: #fff;
-    }
-    .splash-content h1 {
-        font-family: inherit;
-        font-size: 3.5rem;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        background: linear-gradient(90deg, #ff003c 30%, #ff6b9d 80%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 2px 22px #ff003c88);
-        margin-bottom: 32px;
-        text-transform: uppercase;
-    }
-    .loader-bar-bg {
-        width: 270px;
-        height: 16px;
-        background: #1a0510;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 12px #ff003c3a;
-        margin: 0 auto;
-        border: 2px solid #ff003c38;
-    }
-    .loader-bar {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(270deg, #ff003c 35%, #cc0030 100%);
-        border-radius: 10px;
-        box-shadow: 0 1px 8px #ff003c7d;
-        animation: loadbar 1.6s cubic-bezier(.25,1,.8,1) forwards;
-    }
-    @keyframes loadbar {
-        0% { width: 0%; }
-        35% { width: 40%; }
-        65% { width: 67%; }
-        80% { width: 84%;}
-        100% { width: 100%; }
-    }
+        #preloader {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0305 60%, #1a0510 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 4000;
+            top: 0;
+            left: 0;
+            transition: opacity 0.6s;
+        }
+        
+        .splash-content {
+            text-align: center;
+            color: #fff;
+        }
+        
+        .splash-content h1 {
+            font-family: inherit;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            background: linear-gradient(90deg, #ff003c 30%, #ff6b9d 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 22px #ff003c88);
+            margin-bottom: 32px;
+            text-transform: uppercase;
+        }
+        
+        .loader-bar-bg {
+            width: 270px;
+            height: 16px;
+            background: #1a0510;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px #ff003c3a;
+            margin: 0 auto;
+            border: 2px solid #ff003c38;
+        }
+        
+        .loader-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(270deg, #ff003c 35%, #cc0030 100%);
+            border-radius: 10px;
+            box-shadow: 0 1px 8px #ff003c7d;
+            animation: loadbar 1.6s cubic-bezier(.25, 1, .8, 1) forwards;
+        }
+        
+        @keyframes loadbar {
+            0% {
+                width: 0%;
+            }
+            35% {
+                width: 40%;
+            }
+            65% {
+                width: 67%;
+            }
+            80% {
+                width: 84%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
     </style>
     <script>
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            document.getElementById('preloader').style.opacity = 0;
+        window.addEventListener('load', function() {
             setTimeout(function() {
-                document.getElementById('preloader').style.display = 'none';
-            }, 700);
-        }, 1800);
-    });
+                document.getElementById('preloader').style.opacity = 0;
+                setTimeout(function() {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 700);
+            }, 1800);
+        });
     </script>
 
     <div class="starfield"></div>
@@ -567,7 +598,8 @@
         <div class="hero-content">
             <h1>CyberShield</h1>
             <p class="subtitle">Advanced Security Analyzer</p>
-            <p class="description">Advanced AI-powered cybersecurity analyzer trained on 2.8 million rows of threat data with 79 feature columns. Our neural network model delivers high-accuracy attack detection and classification, identifying threat types and attack patterns from your JSON log files.</p>
+            <p class="description">Advanced AI-powered cybersecurity analyzer trained on 2.8 million rows of threat data with 79 feature columns. Our neural network model delivers high-accuracy attack detection and classification, identifying threat types and attack patterns
+                from your JSON log files.</p>
             <div class="cta-buttons">
                 <a href="#analyzer">Start Analysis</a>
                 <a href="#features">Learn More</a>
@@ -584,31 +616,31 @@
                 <h3>Threat Detection</h3>
                 <p>Advanced AI algorithms continuously monitor and identify potential security threats in real-time, providing instant alerts and detailed threat intelligence reports.</p>
             </div>
-            
+
             <div class="feature-card">
                 <div class="feature-icon">🔍</div>
                 <h3>Vulnerability Scanning</h3>
                 <p>Comprehensive security audits that scan your systems for known vulnerabilities, misconfigurations, and potential entry points for malicious actors.</p>
             </div>
-            
+
             <div class="feature-card">
                 <div class="feature-icon">🔐</div>
                 <h3>Data Encryption</h3>
                 <p>Military-grade encryption protocols ensure your sensitive data remains protected both in transit and at rest, meeting compliance standards.</p>
             </div>
-            
+
             <div class="feature-card">
                 <div class="feature-icon">📊</div>
                 <h3>Security Analytics</h3>
                 <p>Detailed analytics and reporting dashboards provide insights into your security posture, helping you make informed decisions about risk management.</p>
             </div>
-            
+
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
                 <h3>Incident Response</h3>
                 <p>Automated incident response mechanisms quickly isolate threats and initiate countermeasures to minimize damage and downtime.</p>
             </div>
-            
+
             <div class="feature-card">
                 <div class="feature-icon">🌐</div>
                 <h3>Network Monitoring</h3>
@@ -623,7 +655,7 @@
         <div class="analyzer-section">
             <h3 style="text-align: center; margin-bottom: 20px; font-weight: 300; letter-spacing: 0.05em;">Upload JSON Log File for Analysis</h3>
             <p style="text-align: center; color: rgba(255,255,255,0.6); margin-bottom: 30px; font-size: 0.95rem;">Our neural network model will analyze your network traffic data and identify potential attacks</p>
-            
+
             <div style="text-align: center; margin-bottom: 20px;">
                 <label for="fileInput" style="display: inline-block; padding: 15px 40px; background: linear-gradient(45deg, rgba(255, 0, 60, 0.2), rgba(255, 0, 60, 0.1)); border: 2px dashed rgba(255, 0, 60, 0.5); border-radius: 5px; cursor: pointer; transition: all 0.3s ease;">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 10px;">
@@ -635,11 +667,11 @@
                 </label>
                 <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="handleFileSelect(event)">
             </div>
-            
+
             <div id="fileName" style="text-align: center; color: #ff6b9d; margin-bottom: 20px; min-height: 24px;"></div>
-            
+
             <button class="analyze-btn" onclick="runAnalysis()" id="analyzeBtn" disabled style="opacity: 0.5; cursor: not-allowed;">Start Analysis</button>
-            
+
             <div class="results-area" id="resultsArea">
                 <div id="threatLevel"></div>
                 <h4 style="margin-bottom: 15px; font-weight: 300; letter-spacing: 0.05em;">Analysis Results:</h4>
@@ -650,17 +682,16 @@
 
     <section class="section" id="contact">
         <h2 class="section-title">Get In Touch</h2>
-        
+
         <div class="contact-section">
             <p>Ready to secure your digital infrastructure? Contact our security experts for a comprehensive assessment and personalized protection strategy tailored to your needs.</p>
-            
+
             <div class="contact-links">
                 <a href="mailto:security@cybershield.com">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                         <polyline points="22,6 12,13 2,6"/>
-                    </svg>
-                    Email Us
+                    </svg> Email Us
                 </a>
                 <a href="#" onclick="alert('Schedule a demo'); return false;">Schedule Demo</a>
                 <a href="#" onclick="alert('Request consultation'); return false;">Get Consultation</a>
@@ -689,7 +720,10 @@
         createStarfield();
 
         // Hero animations
-        gsap.set('.hero h1, .hero .subtitle, .hero .description, .cta-buttons', { opacity: 0, y: 100 });
+        gsap.set('.hero h1, .hero .subtitle, .hero .description, .cta-buttons', {
+            opacity: 0,
+            y: 100
+        });
 
         gsap.to('.hero h1', {
             opacity: 1,
@@ -724,7 +758,11 @@
         });
 
         // Feature cards animation
-        gsap.set('.feature-card', { opacity: 0, y: 80, rotationX: 15 });
+        gsap.set('.feature-card', {
+            opacity: 0,
+            y: 80,
+            rotationX: 15
+        });
 
         ScrollTrigger.create({
             trigger: '.features-grid',
@@ -742,7 +780,10 @@
         });
 
         // Stats animation
-        gsap.set('.stat-card', { opacity: 0, scale: 0.8 });
+        gsap.set('.stat-card', {
+            opacity: 0,
+            scale: 0.8
+        });
 
         ScrollTrigger.create({
             trigger: '.stats-grid',
@@ -760,7 +801,10 @@
 
         // Section titles animation
         gsap.utils.toArray('.section-title').forEach(title => {
-            gsap.set(title, { opacity: 0, y: 50 });
+            gsap.set(title, {
+                opacity: 0,
+                y: 50
+            });
 
             ScrollTrigger.create({
                 trigger: title,
@@ -785,7 +829,7 @@
                 if (target) {
                     const headerHeight = document.querySelector('header').offsetHeight;
                     const targetPosition = target.offsetTop - headerHeight - 20;
-                    
+
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
@@ -801,7 +845,7 @@
             selectedFile = event.target.files[0];
             const fileNameDiv = document.getElementById('fileName');
             const analyzeBtn = document.getElementById('analyzeBtn');
-            
+
             if (selectedFile) {
                 fileNameDiv.textContent = `Selected: ${selectedFile.name}`;
                 analyzeBtn.disabled = false;
@@ -820,57 +864,57 @@
                 alert('Please upload a JSON file first');
                 return;
             }
-            
+
             const resultsArea = document.getElementById('resultsArea');
             const resultsContent = document.getElementById('resultsContent');
             const threatLevel = document.getElementById('threatLevel');
             const analyzeBtn = document.getElementById('analyzeBtn');
-            
+
             // Disable button during analysis
             analyzeBtn.disabled = true;
             analyzeBtn.style.opacity = '0.5';
             analyzeBtn.textContent = 'Analyzing...';
-            
+
             // Show results area
             resultsArea.style.display = 'block';
             resultsContent.innerHTML = '<p style="color: #ff6b9d;">Analyzing JSON data with neural network model... Please wait.</p>';
             threatLevel.innerHTML = '';
-            
+
             // Read the JSON file
             const reader = new FileReader();
             reader.onload = function(e) {
-                try {
-                    const jsonData = JSON.parse(e.target.result);
-                    
-                    // Simulate analysis with realistic delay
-                    setTimeout(() => {
-                        // Simulated AI analysis results
-                        const attackTypes = [
-                            'DDoS Attack', 
-                            'SQL Injection', 
-                            'Cross-Site Scripting (XSS)', 
-                            'Port Scanning',
-                            'Brute Force Attack',
-                            'Man-in-the-Middle',
-                            'Zero-Day Exploit',
-                            'Ransomware',
-                            'Phishing Attack',
-                            'Normal Traffic'
-                        ];
-                        
-                        const severityLevels = ['Low', 'Medium', 'High', 'Critical'];
-                        const detectedAttack = attackTypes[Math.floor(Math.random() * attackTypes.length)];
-                        const severity = severityLevels[Math.floor(Math.random() * severityLevels.length)];
-                        const confidence = (85 + Math.random() * 14).toFixed(2);
-                        
-                        // Determine threat level class
-                        let threatClass = 'threat-low';
-                        if (severity === 'Critical' || severity === 'High') threatClass = 'threat-high';
-                        else if (severity === 'Medium') threatClass = 'threat-medium';
-                        
-                        threatLevel.innerHTML = `<span class="threat-level ${threatClass}">Severity: ${severity}</span>`;
-                        
-                        resultsContent.innerHTML = `
+                    try {
+                        const jsonData = JSON.parse(e.target.result);
+
+                        // Simulate analysis with realistic delay
+                        setTimeout(() => {
+                                    // Simulated AI analysis results
+                                    const attackTypes = [
+                                        'DDoS Attack',
+                                        'SQL Injection',
+                                        'Cross-Site Scripting (XSS)',
+                                        'Port Scanning',
+                                        'Brute Force Attack',
+                                        'Man-in-the-Middle',
+                                        'Zero-Day Exploit',
+                                        'Ransomware',
+                                        'Phishing Attack',
+                                        'Normal Traffic'
+                                    ];
+
+                                    const severityLevels = ['Low', 'Medium', 'High', 'Critical'];
+                                    const detectedAttack = attackTypes[Math.floor(Math.random() * attackTypes.length)];
+                                    const severity = severityLevels[Math.floor(Math.random() * severityLevels.length)];
+                                    const confidence = (85 + Math.random() * 14).toFixed(2);
+
+                                    // Determine threat level class
+                                    let threatClass = 'threat-low';
+                                    if (severity === 'Critical' || severity === 'High') threatClass = 'threat-high';
+                                    else if (severity === 'Medium') threatClass = 'threat-medium';
+
+                                    threatLevel.innerHTML = `<span class="threat-level ${threatClass}">Severity: ${severity}</span>`;
+
+                                    resultsContent.innerHTML = `
                             <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 5px; border: 1px solid rgba(255,0,60,0.2);">
                                 <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🎯 Attack Type Detected:</strong> <span style="color: #ff003c;">${detectedAttack}</span></p>
                                 <p style="margin-bottom: 10px;"><strong>📊 Model Confidence:</strong> ${confidence}%</p>
@@ -917,7 +961,7 @@
         }
 
         // Header hide/show on scroll
-       <script>
+    
     // Header hide/show on scroll
     let lastScrollY = 0;
 
@@ -933,7 +977,7 @@
 
         lastScrollY = currentScrollY;
     });
-</script>
+    </script>
 </body>
-</html>
 
+</html>
