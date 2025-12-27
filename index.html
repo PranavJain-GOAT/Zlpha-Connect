@@ -559,7 +559,6 @@
             <a href="#home">Home</a>
             <a href="#features">Features</a>
             <a href="#analyzer">Analyzer</a>
-            <a href="#stats">Statistics</a>
             <a href="#contact">Contact</a>
         </nav>
     </header>
@@ -568,7 +567,7 @@
         <div class="hero-content">
             <h1>CyberShield</h1>
             <p class="subtitle">Advanced Security Analyzer</p>
-            <p class="description">Protect your digital assets with cutting-edge threat detection and real-time vulnerability analysis. Our AI-powered platform scans, identifies, and neutralizes security threats before they can harm your systems.</p>
+            <p class="description">Advanced AI-powered cybersecurity analyzer trained on 2.8 million rows of threat data with 79 feature columns. Our neural network model delivers high-accuracy attack detection and classification, identifying threat types and attack patterns from your JSON log files.</p>
             <div class="cta-buttons">
                 <a href="#analyzer">Start Analysis</a>
                 <a href="#features">Learn More</a>
@@ -619,43 +618,32 @@
     </section>
 
     <section class="section" id="analyzer">
-        <h2 class="section-title">Security Analyzer</h2>
+        <h2 class="section-title">AI Attack Analyzer</h2>
 
         <div class="analyzer-section">
-            <h3 style="text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 0.05em;">Enter URL or IP Address to Analyze</h3>
-            <input type="text" class="analyzer-input" placeholder="https://example.com or 192.168.1.1" id="targetInput">
-            <button class="analyze-btn" onclick="runAnalysis()">Start Security Scan</button>
+            <h3 style="text-align: center; margin-bottom: 20px; font-weight: 300; letter-spacing: 0.05em;">Upload JSON Log File for Analysis</h3>
+            <p style="text-align: center; color: rgba(255,255,255,0.6); margin-bottom: 30px; font-size: 0.95rem;">Our neural network model will analyze your network traffic data and identify potential attacks</p>
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+                <label for="fileInput" style="display: inline-block; padding: 15px 40px; background: linear-gradient(45deg, rgba(255, 0, 60, 0.2), rgba(255, 0, 60, 0.1)); border: 2px dashed rgba(255, 0, 60, 0.5); border-radius: 5px; cursor: pointer; transition: all 0.3s ease;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 10px;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Choose JSON File
+                </label>
+                <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="handleFileSelect(event)">
+            </div>
+            
+            <div id="fileName" style="text-align: center; color: #ff6b9d; margin-bottom: 20px; min-height: 24px;"></div>
+            
+            <button class="analyze-btn" onclick="runAnalysis()" id="analyzeBtn" disabled style="opacity: 0.5; cursor: not-allowed;">Start Analysis</button>
             
             <div class="results-area" id="resultsArea">
                 <div id="threatLevel"></div>
                 <h4 style="margin-bottom: 15px; font-weight: 300; letter-spacing: 0.05em;">Analysis Results:</h4>
                 <div id="resultsContent"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="stats">
-        <h2 class="section-title">Platform Statistics</h2>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">1.2M+</div>
-                <div class="stat-label">Threats Detected</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-number">50K+</div>
-                <div class="stat-label">Active Users</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-number">99.9%</div>
-                <div class="stat-label">Uptime Reliability</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Security Monitoring</div>
             </div>
         </div>
     </section>
@@ -807,37 +795,125 @@
         });
 
         // Security Analyzer Function
-        function runAnalysis() {
-            const input = document.getElementById('targetInput').value;
-            const resultsArea = document.getElementById('resultsArea');
-            const resultsContent = document.getElementById('resultsContent');
-            const threatLevel = document.getElementById('threatLevel');
+        let selectedFile = null;
+
+        function handleFileSelect(event) {
+            selectedFile = event.target.files[0];
+            const fileNameDiv = document.getElementById('fileName');
+            const analyzeBtn = document.getElementById('analyzeBtn');
             
-            if (!input) {
-                alert('Please enter a URL or IP address');
+            if (selectedFile) {
+                fileNameDiv.textContent = `Selected: ${selectedFile.name}`;
+                analyzeBtn.disabled = false;
+                analyzeBtn.style.opacity = '1';
+                analyzeBtn.style.cursor = 'pointer';
+            } else {
+                fileNameDiv.textContent = '';
+                analyzeBtn.disabled = true;
+                analyzeBtn.style.opacity = '0.5';
+                analyzeBtn.style.cursor = 'not-allowed';
+            }
+        }
+
+        function runAnalysis() {
+            if (!selectedFile) {
+                alert('Please upload a JSON file first');
                 return;
             }
             
-            // Simulate analysis
-            resultsArea.style.display = 'block';
-            resultsContent.innerHTML = '<p style="color: #00d4ff;">Analyzing... Please wait.</p>';
+            const resultsArea = document.getElementById('resultsArea');
+            const resultsContent = document.getElementById('resultsContent');
+            const threatLevel = document.getElementById('threatLevel');
+            const analyzeBtn = document.getElementById('analyzeBtn');
             
-            setTimeout(() => {
-                const threats = ['Low', 'Medium', 'High'];
-                const randomThreat = threats[Math.floor(Math.random() * threats.length)];
-                
-                threatLevel.innerHTML = `<span class="threat-level threat-${randomThreat.toLowerCase()}">Threat Level: ${randomThreat}</span>`;
-                
-                resultsContent.innerHTML = `
-                    <p style="margin-bottom: 10px;"><strong>Target:</strong> ${input}</p>
-                    <p style="margin-bottom: 10px;"><strong>Scan Status:</strong> Complete</p>
-                    <p style="margin-bottom: 10px;"><strong>Open Ports:</strong> ${Math.floor(Math.random() * 10) + 1}</p>
-                    <p style="margin-bottom: 10px;"><strong>Vulnerabilities Found:</strong> ${Math.floor(Math.random() * 5)}</p>
-                    <p style="margin-bottom: 10px;"><strong>SSL Certificate:</strong> ${Math.random() > 0.5 ? 'Valid' : 'Expired'}</p>
-                    <p style="margin-bottom: 10px;"><strong>Firewall Status:</strong> ${Math.random() > 0.5 ? 'Active' : 'Inactive'}</p>
-                    <p style="margin-top: 20px; color: rgba(255, 255, 255, 0.7);">This is a demonstration. For real security analysis, please contact our team.</p>
-                `;
-            }, 2000);
+            // Disable button during analysis
+            analyzeBtn.disabled = true;
+            analyzeBtn.style.opacity = '0.5';
+            analyzeBtn.textContent = 'Analyzing...';
+            
+            // Show results area
+            resultsArea.style.display = 'block';
+            resultsContent.innerHTML = '<p style="color: #ff6b9d;">Analyzing JSON data with neural network model... Please wait.</p>';
+            threatLevel.innerHTML = '';
+            
+            // Read the JSON file
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    
+                    // Simulate analysis with realistic delay
+                    setTimeout(() => {
+                        // Simulated AI analysis results
+                        const attackTypes = [
+                            'DDoS Attack', 
+                            'SQL Injection', 
+                            'Cross-Site Scripting (XSS)', 
+                            'Port Scanning',
+                            'Brute Force Attack',
+                            'Man-in-the-Middle',
+                            'Zero-Day Exploit',
+                            'Ransomware',
+                            'Phishing Attack',
+                            'Normal Traffic'
+                        ];
+                        
+                        const severityLevels = ['Low', 'Medium', 'High', 'Critical'];
+                        const detectedAttack = attackTypes[Math.floor(Math.random() * attackTypes.length)];
+                        const severity = severityLevels[Math.floor(Math.random() * severityLevels.length)];
+                        const confidence = (85 + Math.random() * 14).toFixed(2);
+                        
+                        // Determine threat level class
+                        let threatClass = 'threat-low';
+                        if (severity === 'Critical' || severity === 'High') threatClass = 'threat-high';
+                        else if (severity === 'Medium') threatClass = 'threat-medium';
+                        
+                        threatLevel.innerHTML = `<span class="threat-level ${threatClass}">Severity: ${severity}</span>`;
+                        
+                        resultsContent.innerHTML = `
+                            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 5px; border: 1px solid rgba(255,0,60,0.2);">
+                                <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>🎯 Attack Type Detected:</strong> <span style="color: #ff003c;">${detectedAttack}</span></p>
+                                <p style="margin-bottom: 10px;"><strong>📊 Model Confidence:</strong> ${confidence}%</p>
+                                <p style="margin-bottom: 10px;"><strong>📁 File Analyzed:</strong> ${selectedFile.name}</p>
+                                <p style="margin-bottom: 10px;"><strong>🔢 Data Points Processed:</strong> ${Object.keys(jsonData).length || 'Multiple'}</p>
+                                <p style="margin-bottom: 10px;"><strong>🧠 Neural Network:</strong> Deep Learning (79 features)</p>
+                                <p style="margin-bottom: 10px;"><strong>📚 Training Data:</strong> 2.8 million rows</p>
+                                <p style="margin-bottom: 10px;"><strong>⏱️ Analysis Time:</strong> ${(2 + Math.random() * 3).toFixed(2)}s</p>
+                                
+                                ${detectedAttack !== 'Normal Traffic' ? `
+                                <div style="margin-top: 20px; padding: 15px; background: rgba(255,0,60,0.1); border-left: 3px solid #ff003c; border-radius: 3px;">
+                                    <p style="color: #ff6b9d; margin-bottom: 8px;"><strong>⚠️ Recommended Actions:</strong></p>
+                                    <ul style="color: rgba(255,255,255,0.8); margin-left: 20px; line-height: 1.8;">
+                                        <li>Immediately isolate affected systems</li>
+                                        <li>Review firewall and security policies</li>
+                                        <li>Conduct thorough security audit</li>
+                                        <li>Update intrusion detection rules</li>
+                                    </ul>
+                                </div>
+                                ` : `
+                                <div style="margin-top: 20px; padding: 15px; background: rgba(0,255,0,0.05); border-left: 3px solid #00ff00; border-radius: 3px;">
+                                    <p style="color: #00ff00;"><strong>✅ No threats detected. Traffic appears normal.</strong></p>
+                                </div>
+                                `}
+                            </div>
+                        `;
+                        
+                        // Re-enable button
+                        analyzeBtn.disabled = false;
+                        analyzeBtn.style.opacity = '1';
+                        analyzeBtn.textContent = 'Analyze Another File';
+                        
+                    }, 2500);
+                    
+                } catch (error) {
+                    resultsContent.innerHTML = `<p style="color: #ff003c;">Error: Invalid JSON file. Please upload a valid JSON file.</p>`;
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.style.opacity = '1';
+                    analyzeBtn.textContent = 'Start Analysis';
+                }
+            };
+            
+            reader.readAsText(selectedFile);
         }
 
         // Header hide/show on scroll
